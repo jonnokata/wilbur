@@ -4,7 +4,7 @@ import { NotesContainer } from "./pages/NotesContainer";
 export const App = () => {
   return (
     <Router>
-      <div>
+      <div h="100vh" w="100vw">
         <NotesContainer />
       </div>
     </Router>
