@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { NotesContainer } from "./pages/NotesContainer";
 
 export const App = () => {
