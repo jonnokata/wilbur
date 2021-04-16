@@ -21,6 +21,7 @@ const NotesContainer = () => {
             skipLinkTitle="Space Navigation"
             isFixed={false}
             width={125}
+            height="100vh"
           ></LeftSidebar>
         }
         {
