@@ -4,9 +4,7 @@ import { NotesContainer } from "./pages/NotesContainer";
 export const App = () => {
   return (
     <Router>
-      <div>
-        <NotesContainer />
-      </div>
+      <NotesContainer />
     </Router>
   );
 };

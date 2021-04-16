@@ -1,8 +1,9 @@
 import React from "react";
-// import PageHeader from "@atlaskit/page-header";
 
 const PageTitle = () => {
-  return <PageTitle />;
+  return (
+    <input type="text" placeholder="Give this page a title" id="pageTitle" />
+  );
 };
 
 export { PageTitle };
