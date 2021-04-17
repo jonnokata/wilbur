@@ -1,10 +1,10 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { NotesContainer } from "./pages/NotesContainer";
+import { PagesContainer } from "./pages/PagesContainer";
 
 export const App = () => {
   return (
     <Router>
-      <NotesContainer />
+      <PagesContainer />
     </Router>
   );
 };
