@@ -24,7 +24,7 @@ const port = 3000;
 
 // Import all routers
 const internalRouter = require("./routes/internalRoutes");
-const userRouter = require("./routes/userRoutes");
+//const userRouter = require("./routes/userRoutes");
 const notesRouter = require("./routes/notesRoutes");
 
 // Add middleware to be able to read and understand json files
@@ -33,8 +33,8 @@ app.use(cors());
 
 // Tell express that it needs to use the routers we have initialised
 app.use("/internal", internalRouter);
-app.use("/api/user", favouritesRouter);
-app.use("/api/notes", stockRouter);
+// app.use("/api/users", userRouter);
+app.use("/api/notes", notesRouter);
 
 app.listen(port, () =>
   console.log(`Wilbur is listening at http://localhost:${port}`)
