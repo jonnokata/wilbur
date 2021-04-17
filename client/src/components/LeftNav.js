@@ -9,21 +9,25 @@ import {
   Footer,
   NavigationFooter,
 } from "@atlaskit/side-navigation";
+import { NewPageButton } from "./NewPageButton";
 
 const LeftNav = () => {
   return (
     <SideNavigation label="Side Navigation">
       {/* User details */}
-      <Section hasSeparator>
+      <Section>
         <NavigationHeader>USER PROFILE HERE</NavigationHeader>
       </Section>
 
       {/* Page tree */}
-      <Section>
+      <Section hasSeparator>
         <PageTree></PageTree>
       </Section>
 
       {/* Add page*/}
+      <Section hasSeparator>
+        <NewPageButton />
+      </Section>
     </SideNavigation>
   );
 };
