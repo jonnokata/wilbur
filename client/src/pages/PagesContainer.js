@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { EditorContainer } from "../components/Editor/EditorContainer";
 import { PageLayout, Main, Content, LeftSidebar } from "@atlaskit/page-layout";
@@ -10,6 +10,11 @@ const Wrapper = styled.div`
 `;
 
 const PagesContainer = () => {
+  const [currentPage, setCurrentPage] = useState({});
+  const onDocumentCreate = (newDoc) => {
+    console.log("newDoc: ", newDoc);
+    setCurrentPage(newDoc);
+  };
   return (
     <Wrapper>
       <PageLayout>
@@ -22,7 +27,7 @@ const PagesContainer = () => {
               width={125}
               height="100vh"
             >
-              <LeftNav></LeftNav>
+              <LeftNav onDocumentCreate={onDocumentCreate}></LeftNav>
             </LeftSidebar>
           }
           {/* <div
@@ -36,7 +41,7 @@ const PagesContainer = () => {
           ></div> */}
           {
             <Main testId="main" id="main" skipLinkTitle="Main Content">
-              <EditorContainer />
+              <EditorContainer pageEdit={currentPage} />
             </Main>
           }
         </Content>

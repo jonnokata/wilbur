@@ -7,6 +7,12 @@ const router = express.Router();
 // Add router to ensure user is logged in
 
 // GET - load page
+router.get("/load-page", (req, res) => {
+  PageModel.find().then((data) => {
+    console.log("Load page: ", data);
+    res.send(data);
+  });
+});
 
 // POST - create page - need to accept a document ID here
 router.post("/new-page", (req, res) => {
@@ -19,9 +25,15 @@ router.post("/new-page", (req, res) => {
 });
 
 // PATCH - update content
-router.patch("/update-page", (req, res) => {
+router.patch("/update-page/:id", async (req, res) => {
   console.log(req.body);
-  res.send("Page has been updated!");
+  console.log(req.params.id);
+  const updatedPage = await PageModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.send(updatedPage);
   console.log(res.send);
 });
 

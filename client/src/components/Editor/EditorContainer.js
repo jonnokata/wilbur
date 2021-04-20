@@ -10,25 +10,35 @@ import styled from "styled-components";
 
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
-  // const [editorState, setEditorState] = useState({
-  //   documentContent: "",
-  // });
+  const [editorState, setEditorState] = useState({});
+
+  const handleTitleChange = (e) => {
+    const newEditorState = { ...editorState };
+    newEditorState.documentTitle = e.target.value;
+    setEditorState(newEditorState);
+  };
+
+  useEffect(() => {
+    setEditorState(props.pageEdit);
+  }, [props.pageEdit]);
 
   const handleContentChange = (actions) =>
     _.debounce(() => {
       actions.getValue().then((adf) => {
-        // fetch('../', { adf })
-        fetch(`api/pages/update-page`, {
+        console.log(adf);
+        const data = {
+          documentTitle: editorState.documentTitle,
+          documentContent: adf,
+        };
+        fetch(`api/pages/update-page/${editorState._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(adf),
+          body: JSON.stringify(data),
         }).then((res) => {
           console.log("res: ", res);
         });
-
-        console.log(JSON.stringify(adf));
       });
     }, 1000);
 
@@ -37,7 +47,15 @@ const EditorContainer = (props) => {
       <WithEditorActions
         render={(actions) => (
           <Editor
-            contentComponents={<PageTitle></PageTitle>}
+            contentComponents={
+              <input
+                type="text"
+                placeholder="Give this page a title"
+                id="pageTitle"
+                value={editorState.documentTitle}
+                onChange={handleTitleChange}
+              />
+            }
             defaultValue={""}
             // value={editorState.documentContent}
             onChange={handleContentChange(actions)}

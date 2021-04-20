@@ -7,4 +7,4 @@ const pageSchema = mongoose.Schema({
   documentContent: Object,
 });
 
-module.exports = mongoose.model("notes", pageSchema);
+module.exports = mongoose.model("pages", pageSchema);
