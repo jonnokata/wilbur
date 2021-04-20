@@ -8,7 +8,7 @@ const router = express.Router();
 
 // GET - load page
 
-// POST - create page
+// POST - create page - need to accept a document ID here
 router.post("/new-note", (req, res) => {
   const newNote = req.body;
   console.log("newNote: ", newNote);
@@ -20,7 +20,7 @@ router.post("/new-note", (req, res) => {
 
 // PUT - update content
 
-// DELETE - delete content
+// DELETE - delete page
 
 // GET - search inside page
 

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { EditorContainer } from "../components/EditorContainer";
+import { EditorContainer } from "../components/Editor/EditorContainer";
 import { PageLayout, Main, Content, LeftSidebar } from "@atlaskit/page-layout";
-import { LeftNav } from "../components/LeftNav";
+import { LeftNav } from "../components/Nav/LeftNav";
 
 const Wrapper = styled.div`
   width: 100%;
