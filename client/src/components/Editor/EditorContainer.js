@@ -4,19 +4,30 @@ import {
   WithEditorActions,
   EditorContext,
 } from "@atlaskit/editor-core";
-import _ from "lodash";
+import _, { fromPairs } from "lodash";
 import { PageTitle } from "./PageTitle";
 import styled from "styled-components";
 
+// UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
-  const [editorState, setEditorState] = useState({
-    documentContent: "",
-  });
+  // const [editorState, setEditorState] = useState({
+  //   documentContent: "",
+  // });
 
-  const handleChange = (actions) =>
+  const handleContentChange = (actions) =>
     _.debounce(() => {
       actions.getValue().then((adf) => {
         // fetch('../', { adf })
+        fetch(`api/pages/update-page`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(adf),
+        }).then((res) => {
+          console.log("res: ", res);
+        });
+
         console.log(JSON.stringify(adf));
       });
     }, 1000);
@@ -27,8 +38,9 @@ const EditorContainer = (props) => {
         render={(actions) => (
           <Editor
             contentComponents={<PageTitle></PageTitle>}
-            value={editorState.documentContent}
-            onChange={handleChange(actions)}
+            defaultValue={""}
+            // value={editorState.documentContent}
+            onChange={handleContentChange(actions)}
             appearance="full-width"
             allowFindReplace={true}
             allowExpand={{

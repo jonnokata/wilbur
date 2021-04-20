@@ -6,8 +6,16 @@ import AddIcon from "@atlaskit/icon/glyph/editor/add";
 
 // In below, onClick need to generate a documentID.
 
-const NewPageButton = () => {
-  return <ButtonItem iconAfter={<AddIcon />}>Create Page</ButtonItem>;
+const NewPageButton = (props) => {
+  const handleClick = (e) => {
+    props.onClick();
+  };
+
+  return (
+    <ButtonItem onClick={handleClick} iconAfter={<AddIcon />}>
+      Create Page{" "}
+    </ButtonItem>
+  );
 };
 
 export { NewPageButton };
