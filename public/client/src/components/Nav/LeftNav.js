@@ -13,7 +13,7 @@ import { NewPageButton } from "./NewPageButton";
 import { v4 as uuidv4 } from "uuid";
 
 const LeftNav = (props) => {
-  const handleNewPageCreate = (page) => {
+  const handleNewPageCreate = () => {
     const documentId = uuidv4();
     const newPage = {
       documentId,

@@ -19,6 +19,7 @@ const EditorContainer = (props) => {
   };
 
   useEffect(() => {
+    console.log("props.pageEdit", props.pageEdit);
     setEditorState(props.pageEdit);
   }, [props.pageEdit]);
 
@@ -159,3 +160,107 @@ export { EditorContainer };
 // };
 
 // export { EditorContainer };
+
+// --------------------------------
+
+// const EditorContainer = (props) => {
+//   const [newPage, setNewPage] = useState(false);
+//   const [editorState, setEditorState] = useState({});
+//   const [editorDefaultValue, setEditorDefaultValue] = useState({});
+
+//   const handleTitleChange = (e) => {
+//     const newEditorState = { ...editorState };
+//     newEditorState.documentTitle = e.target.value;
+//     setEditorState(newEditorState);
+//     setNewPage(false);
+//   };
+
+//   useEffect(() => {
+//     console.log("props.pageEdit", props.pageEdit);
+//     setEditorState(props.pageEdit);
+//     setEditorDefaultValue("");
+//     setNewPage(true);
+//   }, [props.pageEdit]);
+
+//   const handleContentChange = (actions) =>
+//     _.debounce(() => {
+//       setNewPage(false);
+//       actions.getValue().then((adf) => {
+//         console.log(adf);
+//         const data = {
+//           documentTitle: editorState.documentTitle,
+//           documentContent: adf,
+//         };
+//         fetch(`api/pages/update-page/${editorState._id}`, {
+//           method: "PATCH",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify(data),
+//         }).then((res) => {
+//           console.log("res: ", res);
+//         });
+//       });
+//     }, 1000);
+
+//   return (
+//     <EditorContext>
+//       <WithEditorActions
+//         render={(actions) => {
+//           if (newPage === true) {
+//             console.log("replace: ");
+//             actions.replaceDocument({});
+//           }
+//           console.log({ actions });
+//           return (
+//             <Editor
+//               contentComponents={
+//                 <input
+//                   type="text"
+//                   placeholder="Give this page a title"
+//                   id="pageTitle"
+//                   value={editorState.documentTitle}
+//                   onChange={handleTitleChange}
+//                 />
+//               }
+//               defaultValue={""}
+//               // value={editorState.documentContent}
+//               onChange={handleContentChange(actions)}
+//               appearance="full-width"
+//               allowFindReplace={true}
+//               allowExpand={{
+//                 allowInsertion: true,
+//                 allowInteractiveExpand: true,
+//               }}
+//               placeholder="G'day! Type away :)"
+//               placeholderHints={["Type / to insert content"]}
+//               allowDate={true}
+//               allowKeyboardAccessibleDatepicker={true}
+//               allowStatus={true}
+//               allowLayouts={true}
+//               allowPanel={true}
+//               allowBlockType={true}
+//               allowBreakout={true}
+//               allowTextColor={true}
+//               allowTables={{
+//                 advanced: true,
+//                 allowBackgroundColor: true,
+//                 allowHeaderColumn: true,
+//                 allowHeaderRow: true,
+//                 allowMergeCells: true,
+//                 allowNumberColumn: true,
+//                 allowColumnSorting: true,
+//                 stickToolbarToBottom: true,
+//                 tableCellOptimization: true,
+//                 stickyHeaders: true,
+//                 stickyHeadersOptimization: true,
+//                 initialRenderOptimization: true,
+//                 mouseMoveOptimization: true,
+//               }}
+//             />
+//           );
+//         }}
+//       ></WithEditorActions>
+//     </EditorContext>
+//   );
+// };
