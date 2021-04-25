@@ -8,17 +8,21 @@ import { AuthProvider } from "./contexts/AuthContext";
 import UserProvider from "./Providers/UserProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { PrivateRoute } from "./components/Users/PrivateRoute";
+import { GlobalStyle } from "./theme/globalStyle";
 
 export const App = () => {
   return (
     <Router>
       <AuthProvider>
+        {/* <GlobalStyle /> */}
+
         <Switch>
-          <PrivateRoute
+          {/* <PrivateRoute
             exact
             path="/"
             component={PagesContainer}
-          ></PrivateRoute>
+          ></PrivateRoute> */}
+          <Route path="/" component={PagesContainer}></Route>
           <Route path="/user" component={LoginScreen}></Route>
         </Switch>
       </AuthProvider>

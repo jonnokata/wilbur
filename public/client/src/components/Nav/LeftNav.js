@@ -1,16 +1,20 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { PageTree } from "./PageTree";
 import {
   SideNavigation,
   Section,
   NavigationHeader,
+  Header,
   NestableNavigationContent,
   Footer,
   NavigationFooter,
+  IconBefore,
 } from "@atlaskit/side-navigation";
 import { NewPageButton } from "./NewPageButton";
+import Button, { ButtonGroup } from "@atlaskit/button";
 import { v4 as uuidv4 } from "uuid";
+import { Logo } from "../Logo";
 
 const LeftNav = (props) => {
   const handleNewPageCreate = () => {
@@ -40,7 +44,9 @@ const LeftNav = (props) => {
     <SideNavigation label="Side Navigation">
       {/* User details */}
       <Section>
-        <NavigationHeader>USER PROFILE HERE</NavigationHeader>
+        <NavigationHeader>
+          <Header component={Logo}></Header>
+        </NavigationHeader>
       </Section>
 
       {/* Page tree */}
@@ -52,6 +58,15 @@ const LeftNav = (props) => {
       <Section hasSeparator>
         <NewPageButton onClick={handleNewPageCreate} />
       </Section>
+      <NavigationFooter>
+        <Footer>
+          <ButtonGroup>
+            <Button appearance="link">Log Out</Button>
+            {" ∙ "}
+            <Button appearance="link">Update details</Button>
+          </ButtonGroup>
+        </Footer>
+      </NavigationFooter>
     </SideNavigation>
   );
 };

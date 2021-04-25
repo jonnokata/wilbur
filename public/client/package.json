@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/avatar": "^20.2.2",
     "@atlaskit/button": "^15.1.5",
     "@atlaskit/css-reset": "^6.0.5",
     "@atlaskit/editor-core": "^139.0.3",
