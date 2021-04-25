@@ -1,0 +1,58 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@atlaskit/avatar": "^20.2.2",
+    "@atlaskit/button": "^15.1.5",
+    "@atlaskit/css-reset": "^6.0.5",
+    "@atlaskit/editor-core": "^139.0.3",
+    "@atlaskit/form": "^8.2.2",
+    "@atlaskit/icon": "^21.5.0",
+    "@atlaskit/media-core": "^32.1.2",
+    "@atlaskit/menu": "^0.7.5",
+    "@atlaskit/page-header": "^10.0.9",
+    "@atlaskit/page-layout": "^0.10.14",
+    "@atlaskit/side-navigation": "^0.8.3",
+    "@atlaskit/textfield": "^5.0.1",
+    "@atlaskit/theme": "^11.0.3",
+    "@atlaskit/tooltip": "^17.2.0",
+    "@atlaskit/tree": "^8.2.0",
+    "@reach/router": "^1.3.4",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^12.8.3",
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "styled-components": "^3.2.6",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:3000"
+}
