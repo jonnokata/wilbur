@@ -1,81 +1,212 @@
-import React, { useState } from "react";
+import React, { useState, Fragment, useRef } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router";
-import { Link } from "@reach/router";
 import { fromPairs } from "lodash";
+import { Link, useHistory } from "react-router-dom";
+import Form, {
+  ErrorMessage,
+  Field,
+  FormSection,
+  FormHeader,
+  FormFooter,
+  ValidMessage,
+  HelperMessage,
+} from "@atlaskit/form";
+import TextField from "@atlaskit/textfield";
+import Button from "@atlaskit/button";
+import ButtonGroup from "@atlaskit/button/button-group";
+import LoadingButton from "@atlaskit/button/loading-button";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const signInWithEmailAndPasswordHandler = (event, email, password) => {
-    event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      setError("Error signing in with password and email!");
-      console.error("Error signing in with password and email", error);
-    });
-  };
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login, currentUser } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
-  const onChangeHandler = (event) => {
-    const { name, value } = event.currentTarget;
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    if (name === "email") {
-      setEmail(value);
-    } else if (name === "password") {
-      setPassword(value);
+    try {
+      setError("");
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
+      history.push("/");
+    } catch {
+      setError("Failed to sign in");
     }
-  };
+    setLoading(false);
+  }
 
   return (
-    <div>
-      <h1>Sign In</h1>
-      <div className="">
-        {error !== null && <div className="">{error}</div>}
-
-        <form className="">
-          <label htmlFor="email" className="block">
-            Email:
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="E.g: jonno@wilbur.com"
-            onChange={(event) => onChangeHandler(event)}
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Your password"
-            onChange={(event) => onChangeHandler(event)}
-          />
-          <button
-            type="Submit"
-            className=""
-            onClick={(event) => {
-              signInWithEmailAndPasswordHandler(event, email, password);
-            }}
-          >
-            Sign In
-          </button>
-        </form>
-        <p className="">or</p>
-        <button className="b">Sign in with Google</button>
-        <p className="\">
-          Don't have an account?{" "}
-          <Link to="" className="">
-            Sign up here
-          </Link>{" "}
-          <br />{" "}
-        </p>
-      </div>
+    <div
+      style={{
+        display: "flex",
+        width: "400px",
+        maxWidth: "100%",
+        margin: "0 auto",
+        flexDirection: "column",
+      }}
+    >
+      <h2> Log In</h2>
+      {JSON.stringify(currentUser)}
+      <Form
+        onSubmit={(data) => {
+          console.log("form data", data);
+          return new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+            data.username === "error" ? { username: "IN_USE" } : undefined
+          );
+        }}
+      >
+        {({ formProps, submitting }) => (
+          <form {...formProps}>
+            <Field
+              ref={emailRef}
+              name="email"
+              label="Email"
+              isRequired
+              defaultValue=""
+            >
+              {({ fieldProps, error }) => (
+                <Fragment>
+                  <TextField autoComplete="off" {...fieldProps} />
+                  {error && (
+                    <ErrorMessage>
+                      This email is already in use, try another one.
+                    </ErrorMessage>
+                  )}
+                </Fragment>
+              )}
+            </Field>
+            <Field
+              ref={passwordRef}
+              name="password"
+              label="Password"
+              defaultValue=""
+              isRequired
+              validate={(value) =>
+                value && value.length < 8
+                  ? "Your password length needs to be at least 8 characters."
+                  : undefined
+              }
+            >
+              {({ fieldProps, error, valid, meta }) => {
+                return (
+                  <Fragment>
+                    <TextField type="password" {...fieldProps} />
+                    {error && !valid && (
+                      <HelperMessage>
+                        Use 8 or more characters with a mix of letters, numbers
+                        & symbols.
+                      </HelperMessage>
+                    )}
+                    {error && (
+                      <ErrorMessage>
+                        Password needs to be more than 8 characters.
+                      </ErrorMessage>
+                    )}
+                    {valid && meta.dirty ? (
+                      <ValidMessage>Awesome password!</ValidMessage>
+                    ) : null}
+                  </Fragment>
+                );
+              }}
+            </Field>
+            <FormFooter>
+              <ButtonGroup>
+                <Button appearance="subtle-link">
+                  <Link to="/signup">Don't have an account? Sign up here.</Link>
+                </Button>
+                <Button appearance="subtle">Cancel</Button>
+                <LoadingButton
+                  type="submit"
+                  appearance="primary"
+                  isLoading={submitting}
+                >
+                  Log In
+                </LoadingButton>
+              </ButtonGroup>
+            </FormFooter>
+          </form>
+        )}
+      </Form>
     </div>
   );
 };
 
 export { LoginForm };
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState(null);
+//   const signInWithEmailAndPasswordHandler = (event, email, password) => {
+//     event.preventDefault();
+//     auth.signInWithEmailAndPassword(email, password).catch((error) => {
+//       setError("Error signing in with password and email!");
+//       console.error("Error signing in with password and email", error);
+//     });
+//   };
+
+//   const onChangeHandler = (event) => {
+//     const { name, value } = event.currentTarget;
+
+//     if (name === "email") {
+//       setEmail(value);
+//     } else if (name === "password") {
+//       setPassword(value);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h1>Sign In</h1>
+//       <div className="">
+//         {error !== null && <div className="">{error}</div>}
+
+//         <form className="">
+//           <label htmlFor="email" className="block">
+//             Email:
+//           </label>
+//           <input
+//             type="email"
+//             name="email"
+//             value={email}
+//             placeholder="E.g: jonno@wilbur.com"
+//             onChange={(event) => onChangeHandler(event)}
+//           />
+//           <label htmlFor="password">Password:</label>
+//           <input
+//             type="password"
+//             name="password"
+//             value={password}
+//             placeholder="Your password"
+//             onChange={(event) => onChangeHandler(event)}
+//           />
+//           <button
+//             type="Submit"
+//             className=""
+//             onClick={(event) => {
+//               signInWithEmailAndPasswordHandler(event, email, password);
+//             }}
+//           >
+//             Sign In
+//           </button>
+//         </form>
+//         <p className="">or</p>
+//         <button className="b">Sign in with Google</button>
+//         <p className="\">
+//           Don't have an account?{" "}
+//           <Link to="" className="">
+//             Sign up here
+//           </Link>{" "}
+//           <br />{" "}
+//         </p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export { LoginForm };
 
 // -------------
 

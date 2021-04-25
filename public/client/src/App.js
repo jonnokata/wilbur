@@ -1,23 +1,40 @@
 // import { BrowserRouter as Router } from "react-router-dom";
 import { PagesContainer } from "./pages/PagesContainer";
 import { LoginScreen } from "./pages/LoginScreen";
-import { Router } from "@reach/router";
 import { LoginForm } from "./components/Users/LoginForm";
 import { SignUpForm } from "./components/Users/SignUpForm";
 import { PasswordResetForm } from "./components/Users/PasswordResetForm";
+import { AuthProvider } from "./contexts/AuthContext";
 import UserProvider from "./Providers/UserProvider";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { PrivateRoute } from "./components/Users/PrivateRoute";
 
 export const App = () => {
-  <UserProvider>
-    const user = null; return user ? (
-    <PagesContainer />) : (
+  return (
     <Router>
-      <SignUpForm path="signup" />
-      <LoginScreen path="/" />
-      <PasswordResetForm path="passwordReset" />
-      {/* <LoginScreen /> */}
-      {/*<PagesContainer /> */}
+      <AuthProvider>
+        <Switch>
+          <PrivateRoute
+            exact
+            path="/"
+            component={PagesContainer}
+          ></PrivateRoute>
+          <Route path="/signup" component={SignUpForm}></Route>
+          <Route path="/login" component={LoginScreen}></Route>
+        </Switch>
+      </AuthProvider>
     </Router>
-    );
-  </UserProvider>;
+  );
+  // <UserProvider>
+  //   const user = null; return user ? (
+  //   <PagesContainer />) : (
+  //   <Router>
+  //     <SignUpForm path="signup" />
+  //     {/*<LoginScreen path="/" /> */}
+  //     {/* <PasswordResetForm path="passwordReset" />*/}
+  //     {/* <LoginScreen /> */}
+  //     {/*<PagesContainer /> */}
+  //   </Router>
+  //   );
+  // </UserProvider>;
 };
