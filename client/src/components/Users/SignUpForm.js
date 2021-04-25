@@ -20,10 +20,10 @@ const SignUpForm = () => {
   const passwordRef = useRef();
   const { signup } = useAuth();
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //   signup(emailRef.current.value, passwordRef.current.value);
-  // }
+  const handleSubmit = () => {
+    signup(emailRef.current.value, passwordRef.current.value);
+    // console.log("signup: ", signup);
+  };
   // // const { signup, currentUser } = useAuth();
   // const [error, setError] = useState("");
   // const [loading, setLoading] = useState(false);
@@ -54,14 +54,26 @@ const SignUpForm = () => {
       }}
     >
       <h2>Sign Up</h2>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         {({ formProps }) => (
           <form {...formProps}>
             <FormHeader title="Sign Up" />
-            <Field name="email" defaultValue="" label="Email" isRequired>
+            <Field
+              name="email"
+              defaultValue=""
+              label="Email"
+              value={emailRef}
+              isRequired
+            >
               {({ fieldProps }) => <TextField {...fieldProps} />}
             </Field>
-            <Field name="password" defaultValue="" label="Password" isRequired>
+            <Field
+              name="password"
+              defaultValue=""
+              label="Password"
+              value={passwordRef}
+              isRequired
+            >
               {({ fieldProps }) => <TextField {...fieldProps} />}
             </Field>
             <Button type="submit" appearance="primary">

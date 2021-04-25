@@ -15,6 +15,7 @@ import { NewPageButton } from "./NewPageButton";
 import Button, { ButtonGroup } from "@atlaskit/button";
 import { v4 as uuidv4 } from "uuid";
 import { Logo } from "../Logo";
+import { cssFn } from "@atlaskit/menu";
 
 const LeftNav = (props) => {
   const handleNewPageCreate = () => {
@@ -48,23 +49,23 @@ const LeftNav = (props) => {
           <Header component={Logo}></Header>
         </NavigationHeader>
       </Section>
+      <NestableNavigationContent>
+        {/* Page tree */}
+        <Section hasSeparator>
+          <PageTree></PageTree>
+        </Section>
 
-      {/* Page tree */}
-      <Section hasSeparator>
-        <PageTree></PageTree>
-      </Section>
-
-      {/* Add page*/}
-      <Section hasSeparator>
-        <NewPageButton onClick={handleNewPageCreate} />
-      </Section>
+        {/* Add page*/}
+        <Section hasSeparator>
+          <NewPageButton onClick={handleNewPageCreate} />
+        </Section>
+      </NestableNavigationContent>
       <NavigationFooter>
         <Footer>
-          <ButtonGroup>
-            <Button appearance="link">Log Out</Button>
-            {" ∙ "}
-            <Button appearance="link">Update details</Button>
-          </ButtonGroup>
+          <Fragment>
+            <a>Log Out</a> {" ∙ "}
+            <a>Update Details</a>
+          </Fragment>
         </Footer>
       </NavigationFooter>
     </SideNavigation>
