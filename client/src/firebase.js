@@ -1,4 +1,3 @@
-import { defaultInputRuleHandler } from "@atlaskit/editor-core/dist/types/utils/input-rules";
 import firebase from "firebase/app";
 import "firebase/auth";
 
@@ -11,5 +10,5 @@ const FirebaseApp = firebase.initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
 
-export const auth = FirebaseApp.auth();
+export const Auth = FirebaseApp.auth();
 export default FirebaseApp;

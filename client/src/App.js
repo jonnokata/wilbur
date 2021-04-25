@@ -6,21 +6,24 @@ import { SignUpForm } from "./components/Users/SignUpForm";
 import { PasswordResetForm } from "./components/Users/PasswordResetForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { GlobalStyle } from "./theme/globalStyle";
+import { AuthProvider } from "./contexts/AuthContext";
 
 export const App = () => {
   return (
     <Router>
-      {/* <GlobalStyle /> */}
+      <AuthProvider>
+        {/* <GlobalStyle /> */}
 
-      <Switch>
-        {/* <PrivateRoute
+        <Switch>
+          {/* <PrivateRoute
             exact
             path="/"
             component={PagesContainer}
           ></PrivateRoute> */}
-        {/* <Route path="/" component={PagesContainer}></Route> */}
-        <Route path="/user" component={LoginScreen}></Route>
-      </Switch>
+          {/* <Route path="/" component={PagesContainer}></Route> */}
+          <Route path="/user" component={LoginScreen}></Route>
+        </Switch>
+      </AuthProvider>
     </Router>
   );
   // <UserProvider>

@@ -13,10 +13,17 @@ import TextField from "@atlaskit/textfield";
 import Button from "@atlaskit/button";
 import ButtonGroup from "@atlaskit/button/button-group";
 import LoadingButton from "@atlaskit/button/loading-button";
+import { useAuth } from "../../contexts/AuthContext";
 
 const SignUpForm = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const { signup } = useAuth();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    signup(emailRef.current.value, passwordRef.current.value);
+  }
   // // const { signup, currentUser } = useAuth();
   // const [error, setError] = useState("");
   // const [loading, setLoading] = useState(false);
