@@ -8,6 +8,10 @@ import _, { fromPairs } from "lodash";
 import { PageTitle } from "./PageTitle";
 import styled from "styled-components";
 
+const EditorStyleContainer = styled.div`
+  padding: 0 32px;
+`;
+
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
   const [editorState, setEditorState] = useState({});
@@ -44,57 +48,59 @@ const EditorContainer = (props) => {
     }, 1000);
 
   return (
-    <EditorContext>
-      <WithEditorActions
-        render={(actions) => (
-          <Editor
-            contentComponents={
-              <input
-                type="text"
-                placeholder="Give this page a title"
-                id="pageTitle"
-                value={editorState.documentTitle}
-                onChange={handleTitleChange}
-              />
-            }
-            defaultValue={""}
-            // value={editorState.documentContent}
-            onChange={handleContentChange(actions)}
-            appearance="full-width"
-            allowFindReplace={true}
-            allowExpand={{
-              allowInsertion: true,
-              allowInteractiveExpand: true,
-            }}
-            placeholder="G'day! Type away :)"
-            placeholderHints={["Type / to insert content"]}
-            allowDate={true}
-            allowKeyboardAccessibleDatepicker={true}
-            allowStatus={true}
-            allowLayouts={true}
-            allowPanel={true}
-            allowBlockType={true}
-            allowBreakout={true}
-            allowTextColor={true}
-            allowTables={{
-              advanced: true,
-              allowBackgroundColor: true,
-              allowHeaderColumn: true,
-              allowHeaderRow: true,
-              allowMergeCells: true,
-              allowNumberColumn: true,
-              allowColumnSorting: true,
-              stickToolbarToBottom: true,
-              tableCellOptimization: true,
-              stickyHeaders: true,
-              stickyHeadersOptimization: true,
-              initialRenderOptimization: true,
-              mouseMoveOptimization: true,
-            }}
-          />
-        )}
-      ></WithEditorActions>
-    </EditorContext>
+    <EditorStyleContainer>
+      <EditorContext>
+        <WithEditorActions
+          render={(actions) => (
+            <Editor
+              contentComponents={
+                <input
+                  type="text"
+                  placeholder="Give this page a title"
+                  id="pageTitle"
+                  value={editorState.documentTitle}
+                  onChange={handleTitleChange}
+                />
+              }
+              defaultValue={""}
+              // value={editorState.documentContent}
+              onChange={handleContentChange(actions)}
+              appearance="full-width"
+              allowFindReplace={true}
+              allowExpand={{
+                allowInsertion: true,
+                allowInteractiveExpand: true,
+              }}
+              placeholder="G'day! Type away :)"
+              placeholderHints={["Type / to insert content"]}
+              allowDate={true}
+              allowKeyboardAccessibleDatepicker={true}
+              allowStatus={true}
+              allowLayouts={true}
+              allowPanel={true}
+              allowBlockType={true}
+              allowBreakout={true}
+              allowTextColor={true}
+              allowTables={{
+                advanced: true,
+                allowBackgroundColor: true,
+                allowHeaderColumn: true,
+                allowHeaderRow: true,
+                allowMergeCells: true,
+                allowNumberColumn: true,
+                allowColumnSorting: true,
+                stickToolbarToBottom: true,
+                tableCellOptimization: true,
+                stickyHeaders: true,
+                stickyHeadersOptimization: true,
+                initialRenderOptimization: true,
+                mouseMoveOptimization: true,
+              }}
+            />
+          )}
+        ></WithEditorActions>
+      </EditorContext>
+    </EditorStyleContainer>
   );
 };
 
