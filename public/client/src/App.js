@@ -19,8 +19,7 @@ export const App = () => {
             path="/"
             component={PagesContainer}
           ></PrivateRoute>
-          <Route path="/signup" component={SignUpForm}></Route>
-          <Route path="/login" component={LoginScreen}></Route>
+          <Route path="/user" component={LoginScreen}></Route>
         </Switch>
       </AuthProvider>
     </Router>
