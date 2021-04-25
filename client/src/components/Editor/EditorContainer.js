@@ -9,6 +9,7 @@ import { PageTitle } from "./PageTitle";
 import styled from "styled-components";
 
 const EditorStyleContainer = styled.div`
+  height: 100%;
   padding: 0 32px;
 `;
 
