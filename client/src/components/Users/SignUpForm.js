@@ -20,10 +20,10 @@ const SignUpForm = () => {
   const passwordRef = useRef();
   const { signup } = useAuth();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    signup(emailRef.current.value, passwordRef.current.value);
-  }
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   signup(emailRef.current.value, passwordRef.current.value);
+  // }
   // // const { signup, currentUser } = useAuth();
   // const [error, setError] = useState("");
   // const [loading, setLoading] = useState(false);
@@ -53,87 +53,20 @@ const SignUpForm = () => {
         flexDirection: "column",
       }}
     >
-      <h2> Sign Up</h2>
-      {/* {JSON.stringify(currentUser)} */}
-      <Form
-        onSubmit={(data) => {
-          console.log("form data", data);
-          return new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
-            data.username === "error" ? { username: "IN_USE" } : undefined
-          );
-        }}
-      >
-        {({ formProps, submitting }) => (
+      <h2>Sign Up</h2>
+      <Form>
+        {({ formProps }) => (
           <form {...formProps}>
-            <Field
-              ref={emailRef}
-              name="email"
-              label="Email"
-              isRequired
-              defaultValue=""
-            >
-              {({ fieldProps, error }) => (
-                <Fragment>
-                  <TextField autoComplete="off" {...fieldProps} />
-                  {error && (
-                    <ErrorMessage>
-                      This email is already in use, try another one.
-                    </ErrorMessage>
-                  )}
-                </Fragment>
-              )}
+            <FormHeader title="Sign Up" />
+            <Field name="email" defaultValue="" label="Email" isRequired>
+              {({ fieldProps }) => <TextField {...fieldProps} />}
             </Field>
-            <Field
-              ref={passwordRef}
-              name="password"
-              label="Password"
-              defaultValue=""
-              isRequired
-              validate={(value) =>
-                value && value.length < 8
-                  ? "Your password length needs to be at least 8 characters."
-                  : undefined
-              }
-            >
-              {({ fieldProps, error, valid, meta }) => {
-                return (
-                  <Fragment>
-                    <TextField type="password" {...fieldProps} />
-                    {error && !valid && (
-                      <HelperMessage>
-                        Use 8 or more characters with a mix of letters, numbers
-                        & symbols.
-                      </HelperMessage>
-                    )}
-                    {error && (
-                      <ErrorMessage>
-                        Password needs to be more than 8 characters.
-                      </ErrorMessage>
-                    )}
-                    {valid && meta.dirty ? (
-                      <ValidMessage>Awesome password!</ValidMessage>
-                    ) : null}
-                  </Fragment>
-                );
-              }}
+            <Field name="password" defaultValue="" label="Password" isRequired>
+              {({ fieldProps }) => <TextField {...fieldProps} />}
             </Field>
-            <FormFooter>
-              <ButtonGroup>
-                <Button appearance="subtle-link">
-                  <Link to="/login">
-                    Already have an account? Sign in here.
-                  </Link>
-                </Button>
-                <Button appearance="subtle">Cancel</Button>
-                <LoadingButton
-                  type="submit"
-                  appearance="primary"
-                  isLoading={submitting}
-                >
-                  Sign up
-                </LoadingButton>
-              </ButtonGroup>
-            </FormFooter>
+            <Button type="submit" appearance="primary">
+              Submit
+            </Button>
           </form>
         )}
       </Form>
@@ -142,6 +75,94 @@ const SignUpForm = () => {
 };
 
 export { SignUpForm };
+
+// <div
+//   style={{
+//     display: "flex",
+//     width: "400px",
+//     maxWidth: "100%",
+//     margin: "0 auto",
+//     flexDirection: "column",
+//   }}
+// >
+//   <h2> Sign Up</h2>
+//   {/* {JSON.stringify(currentUser)} */}
+//   <Form onSubmit={handleSubmit}>
+//     {({ formProps, submitting }) => (
+//       <form {...formProps}>
+//         <Field
+//           ref={emailRef}
+//           name="email"
+//           label="Email"
+//           isRequired
+//           defaultValue=""
+//         >
+//           {({ fieldProps, error }) => (
+//             <Fragment>
+//               <TextField autoComplete="off" {...fieldProps} />
+//               {error && (
+//                 <ErrorMessage>
+//                   This email is already in use, try another one.
+//                 </ErrorMessage>
+//               )}
+//             </Fragment>
+//           )}
+//         </Field>
+//         <Field
+//           ref={passwordRef}
+//           name="password"
+//           label="Password"
+//           defaultValue=""
+//           isRequired
+//           validate={(value) =>
+//             value && value.length < 8
+//               ? "Your password length needs to be at least 8 characters."
+//               : undefined
+//           }
+//         >
+//           {({ fieldProps, error, valid, meta }) => {
+//             return (
+//               <Fragment>
+//                 <TextField type="password" {...fieldProps} />
+//                 {error && !valid && (
+//                   <HelperMessage>
+//                     Use 8 or more characters with a mix of letters, numbers
+//                     & symbols.
+//                   </HelperMessage>
+//                 )}
+//                 {error && (
+//                   <ErrorMessage>
+//                     Password needs to be more than 8 characters.
+//                   </ErrorMessage>
+//                 )}
+//                 {valid && meta.dirty ? (
+//                   <ValidMessage>Awesome password!</ValidMessage>
+//                 ) : null}
+//               </Fragment>
+//             );
+//           }}
+//         </Field>
+//         <FormFooter>
+//           <ButtonGroup>
+//             <Button appearance="subtle-link">
+//               <Link to="/login">
+//                 Already have an account? Sign in here.
+//               </Link>
+//             </Button>
+//             <Button appearance="subtle">Cancel</Button>
+//             <LoadingButton
+//               type="submit"
+//               appearance="primary"
+//               isLoading={submitting}
+//             >
+//               Sign up
+//             </LoadingButton>
+//           </ButtonGroup>
+//         </FormFooter>
+//       </form>
+//     )}
+//   </Form>
+// </div>
 
 // const SignUpForm = () => {
 //   const [email, setEmail] = useState("");
