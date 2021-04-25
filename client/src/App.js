@@ -18,7 +18,7 @@ export const App = () => {
             path="/"
             component={PagesContainer}
           ></PrivateRoute> */}
-        {/*<Route path="/" component={PagesContainer}></Route>*/}
+        {/* <Route path="/" component={PagesContainer}></Route> */}
         <Route path="/user" component={LoginScreen}></Route>
       </Switch>
     </Router>

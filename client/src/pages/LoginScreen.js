@@ -16,7 +16,7 @@ const LoginScreen = () => {
       <Container>
         <Switch>
           <Route path="/user/signup" component={SignUpForm}></Route>
-          <Route path="/user/login" component={LoginForm}></Route>
+          {/* <Route path="/user/login" component={LoginForm}></Route> */}
         </Switch>
       </Container>
     </Router>

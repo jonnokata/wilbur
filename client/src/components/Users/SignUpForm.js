@@ -17,24 +17,24 @@ import LoadingButton from "@atlaskit/button/loading-button";
 const SignUpForm = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
-  // const { signup, currentUser } = useAuth();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  // // const { signup, currentUser } = useAuth();
+  // const [error, setError] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const history = useHistory();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
 
-    try {
-      setError("");
-      setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
-    } catch {
-      setError("Failed to create an account");
-    }
-    setLoading(false);
-  }
+  //   try {
+  //     setError("");
+  //     setLoading(true);
+  //     await signup(emailRef.current.value, passwordRef.current.value);
+  //     history.push("/");
+  //   } catch {
+  //     setError("Failed to create an account");
+  //   }
+  //   setLoading(false);
+  // }
 
   return (
     <div
@@ -47,7 +47,7 @@ const SignUpForm = () => {
       }}
     >
       <h2> Sign Up</h2>
-      {JSON.stringify(currentUser)}
+      {/* {JSON.stringify(currentUser)} */}
       <Form
         onSubmit={(data) => {
           console.log("form data", data);
@@ -58,29 +58,6 @@ const SignUpForm = () => {
       >
         {({ formProps, submitting }) => (
           <form {...formProps}>
-            <Field
-              ref={usernameRef}
-              name="username"
-              label="Username"
-              isRequired
-              defaultValue=""
-            >
-              {({ fieldProps, error }) => (
-                <Fragment>
-                  <TextField autoComplete="off" {...fieldProps} />
-                  {!error && (
-                    <HelperMessage>
-                      You can use letters, numbers & periods.
-                    </HelperMessage>
-                  )}
-                  {error && (
-                    <ErrorMessage>
-                      This username is already in use, try another one.
-                    </ErrorMessage>
-                  )}
-                </Fragment>
-              )}
-            </Field>
             <Field
               ref={emailRef}
               name="email"
