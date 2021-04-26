@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PersonIcon from "@atlaskit/icon/glyph/person";
 import styled from "styled-components";
 import { PageTree } from "./PageTree";
 import {
@@ -41,12 +42,14 @@ const LeftNav = (props) => {
       });
   };
 
+  const handleLogout = () => {};
+
   return (
     <SideNavigation label="Side Navigation">
       {/* User details */}
       <Section>
         <NavigationHeader>
-          <Header component={Logo}></Header>
+          <Header iconBefore={<PersonIcon />} description="Hello"></Header>
         </NavigationHeader>
       </Section>
       <NestableNavigationContent>
@@ -63,8 +66,13 @@ const LeftNav = (props) => {
       <NavigationFooter>
         <Footer>
           <Fragment>
-            <a>Log Out</a> {" ∙ "}
-            <a>Update Details</a>
+            <Button appearance="link" spacing="compact">
+              Log Out
+            </Button>
+            {" ∙ "}
+            <Button appearance="link" spacing="compact">
+              Update Details
+            </Button>
           </Fragment>
         </Footer>
       </NavigationFooter>
