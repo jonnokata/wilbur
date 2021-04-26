@@ -11,14 +11,17 @@ import {
   Footer,
   NavigationFooter,
   IconBefore,
+  CustomItem,
+  CustomItemComponentProps,
 } from "@atlaskit/side-navigation";
 import { NewPageButton } from "./NewPageButton";
 import Button, { ButtonGroup } from "@atlaskit/button";
 import { v4 as uuidv4 } from "uuid";
-import { Logo } from "../Logo";
-import { cssFn } from "@atlaskit/menu";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LeftNav = (props) => {
+  const { currentUser, loading } = useAuth();
+
   const handleNewPageCreate = () => {
     const documentId = uuidv4();
     const newPage = {
@@ -44,14 +47,30 @@ const LeftNav = (props) => {
 
   const handleLogout = () => {};
 
+  const openProfileModal = () => {};
+
+  // const PageHeader = () => (
+  //   <CustomItem
+  //     href="/create-article-6"
+  //     component={CustomLink}
+  //     iconBefore={<AddItemIcon label="" />}
+  //   >
+  //     Custom create article
+  //   </CustomItem>
+  // );
   return (
     <SideNavigation label="Side Navigation">
       {/* User details */}
-      <Section>
-        <NavigationHeader>
-          <Header iconBefore={<PersonIcon />} description="Hello"></Header>
-        </NavigationHeader>
-      </Section>
+      <NavigationHeader>
+        <Header iconBefore={<PersonIcon />}>
+          {loading ? null : currentUser.email}
+        </Header>
+        {/* <Header
+            component={
+              <CustomItem>{loading ? null : currentUser.email}</CustomItem>
+            }
+          ></Header> */}
+      </NavigationHeader>
       <NestableNavigationContent>
         {/* Page tree */}
         <Section hasSeparator>
@@ -66,11 +85,15 @@ const LeftNav = (props) => {
       <NavigationFooter>
         <Footer>
           <Fragment>
-            <Button appearance="link" spacing="compact">
+            <Button appearance="link" spacing="compact" onClick={handleLogout}>
               Log Out
             </Button>
             {" ∙ "}
-            <Button appearance="link" spacing="compact">
+            <Button
+              appearance="link"
+              spacing="compact"
+              onClick={openProfileModal}
+            >
               Update Details
             </Button>
           </Fragment>
