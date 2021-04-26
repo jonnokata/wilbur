@@ -16,66 +16,12 @@ import LoadingButton from "@atlaskit/button/loading-button";
 import { useAuth } from "../../contexts/AuthContext";
 
 const SignUpForm = () => {
-  // const emailRef = useRef();
-  // const passwordRef = useRef();
   const { signup } = useAuth();
 
   const handleSubmit = (data) => {
     console.log("data: ", data);
     signup(data.email, data.password);
-    // console.log("signup: ", signup);
   };
-  // // const { signup, currentUser } = useAuth();
-  // const [error, setError] = useState("");
-  // const [loading, setLoading] = useState(false);
-  // const history = useHistory();
-
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   try {
-  //     setError("");
-  //     setLoading(true);
-  //     await signup(emailRef.current.value, passwordRef.current.value);
-  //     history.push("/");
-  //   } catch {
-  //     setError("Failed to create an account");
-  //   }
-  //   setLoading(false);
-  // }
-
-  //   return (
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         width: "400px",
-  //         maxWidth: "100%",
-  //         margin: "0 auto",
-  //         flexDirection: "column",
-  //       }}
-  //     >
-  //       <h2>Sign Up</h2>
-  //       <Form onSubmit={handleSubmit}>
-  //         {({ formProps }) => (
-  //           <form {...formProps}>
-  //             <FormHeader title="Sign Up" />
-  //             <Field name="email" defaultValue="" label="Email" isRequired>
-  //               {({ fieldProps }) => <TextField {...fieldProps} />}
-  //             </Field>
-  //             <Field name="password" defaultValue="" label="Password" isRequired>
-  //               {({ fieldProps }) => <TextField {...fieldProps} />}
-  //             </Field>
-  //             <Button type="submit" appearance="primary">
-  //               Submit
-  //             </Button>
-  //           </form>
-  //         )}
-  //       </Form>
-  //     </div>
-  //   );
-  // };
-
-  // export { SignUpForm };
 
   return (
     <div
@@ -92,6 +38,7 @@ const SignUpForm = () => {
       <Form onSubmit={handleSubmit}>
         {({ formProps, submitting }) => (
           <form {...formProps}>
+            {/* <FormHeader title="Sign Up" /> */}
             <Field name="email" label="Email" isRequired defaultValue="">
               {({ fieldProps, error }) => (
                 <Fragment>
@@ -162,97 +109,3 @@ const SignUpForm = () => {
 };
 
 export { SignUpForm };
-
-// const SignUpForm = () => {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [displayName, setDisplayName] = useState("");
-//   const [error, setError] = useState(null);
-//   const createUserWithEmailAndPasswordHandler = (event, email, password) => {
-//     event.preventDefault();
-//     try{
-//         const {user} = await auth.createUserWithEmailAndPassword(email, password);
-//         generateUserDocument(user, {displayName});
-//       }
-//       catch(error){
-//         setError('Error Signing up with email and password');
-//       }
-//     setEmail("");
-//     setPassword("");
-//     setDisplayName("");
-//   };
-//   const onChangeHandler = (event) => {
-//     const { name, value } = event.currentTarget;
-//     if (name === "email") {
-//       setEmail(value);
-//     } else if (name === "password") {
-//       setPassword(value);
-//     } else if (name === "displayName") {
-//       setDisplayName(value);
-//     }
-//   };
-//   return (
-//     <div className="">
-//       <h1 className="">Sign Up</h1>
-//       <div className="">
-//         {error !== null && <div className="">{error}</div>}
-//         <form className="">
-//           <label htmlFor="displayName" className="">
-//             Display Name:
-//           </label>
-//           <input
-//             type="text"
-//             className=""
-//             name="displayName"
-//             value={displayName}
-//             placeholder="E.g: Wilbur"
-//             id="displayName"
-//             onChange={(event) => onChangeHandler(event)}
-//           />
-//           <label htmlFor="email" className="">
-//             Email:
-//           </label>
-//           <input
-//             type="email"
-//             className=""
-//             name="email"
-//             value={email}
-//             placeholder="E.g: hello@wilbur.com"
-//             id="email"
-//             onChange={(event) => onChangeHandler(event)}
-//           />
-//           <label htmlFor="userPassword" className="">
-//             Password:
-//           </label>
-//           <input
-//             type="password"
-//             className=""
-//             name="password"
-//             value={password}
-//             placeholder="Your Password"
-//             id="password"
-//             onChange={(event) => onChangeHandler(event)}
-//           />
-//           <button
-//             className=""
-//             onClick={(event) => {
-//               createUserWithEmailAndPasswordHandler(event, email, password);
-//             }}
-//           >
-//             Sign up
-//           </button>
-//         </form>
-//         <p className="">or</p>
-//         <button className="">Sign In with Google</button>
-//         <p className="">
-//           Already have an account?{" "}
-//           <Link to="/" className="">
-//             Sign in here
-//           </Link>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export { SignUpForm };
