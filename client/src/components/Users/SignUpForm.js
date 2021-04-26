@@ -16,12 +16,13 @@ import LoadingButton from "@atlaskit/button/loading-button";
 import { useAuth } from "../../contexts/AuthContext";
 
 const SignUpForm = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  // const emailRef = useRef();
+  // const passwordRef = useRef();
   const { signup } = useAuth();
 
-  const handleSubmit = () => {
-    signup(emailRef.current.value, passwordRef.current.value);
+  const handleSubmit = (data) => {
+    console.log("data: ", data);
+    signup(data.email, data.password);
     // console.log("signup: ", signup);
   };
   // // const { signup, currentUser } = useAuth();
@@ -43,6 +44,39 @@ const SignUpForm = () => {
   //   setLoading(false);
   // }
 
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         width: "400px",
+  //         maxWidth: "100%",
+  //         margin: "0 auto",
+  //         flexDirection: "column",
+  //       }}
+  //     >
+  //       <h2>Sign Up</h2>
+  //       <Form onSubmit={handleSubmit}>
+  //         {({ formProps }) => (
+  //           <form {...formProps}>
+  //             <FormHeader title="Sign Up" />
+  //             <Field name="email" defaultValue="" label="Email" isRequired>
+  //               {({ fieldProps }) => <TextField {...fieldProps} />}
+  //             </Field>
+  //             <Field name="password" defaultValue="" label="Password" isRequired>
+  //               {({ fieldProps }) => <TextField {...fieldProps} />}
+  //             </Field>
+  //             <Button type="submit" appearance="primary">
+  //               Submit
+  //             </Button>
+  //           </form>
+  //         )}
+  //       </Form>
+  //     </div>
+  //   );
+  // };
+
+  // export { SignUpForm };
+
   return (
     <div
       style={{
@@ -53,32 +87,73 @@ const SignUpForm = () => {
         flexDirection: "column",
       }}
     >
-      <h2>Sign Up</h2>
+      <h2> Sign Up</h2>
+      {/* {JSON.stringify(currentUser)} */}
       <Form onSubmit={handleSubmit}>
-        {({ formProps }) => (
+        {({ formProps, submitting }) => (
           <form {...formProps}>
-            <FormHeader title="Sign Up" />
-            <Field
-              name="email"
-              defaultValue=""
-              label="Email"
-              value={emailRef}
-              isRequired
-            >
-              {({ fieldProps }) => <TextField {...fieldProps} />}
+            <Field name="email" label="Email" isRequired defaultValue="">
+              {({ fieldProps, error }) => (
+                <Fragment>
+                  <TextField autoComplete="off" {...fieldProps} />
+                  {error && (
+                    <ErrorMessage>
+                      This email is already in use, try another one.
+                    </ErrorMessage>
+                  )}
+                </Fragment>
+              )}
             </Field>
             <Field
               name="password"
-              defaultValue=""
               label="Password"
-              value={passwordRef}
+              defaultValue=""
               isRequired
+              validate={(value) =>
+                value && value.length < 8
+                  ? "Your password length needs to be at least 8 characters."
+                  : undefined
+              }
             >
-              {({ fieldProps }) => <TextField {...fieldProps} />}
+              {({ fieldProps, error, valid, meta }) => {
+                return (
+                  <Fragment>
+                    <TextField type="password" {...fieldProps} />
+                    {error && !valid && (
+                      <HelperMessage>
+                        Use 8 or more characters with a mix of letters, numbers
+                        & symbols.
+                      </HelperMessage>
+                    )}
+                    {error && (
+                      <ErrorMessage>
+                        Password needs to be more than 8 characters.
+                      </ErrorMessage>
+                    )}
+                    {valid && meta.dirty ? (
+                      <ValidMessage>Awesome password!</ValidMessage>
+                    ) : null}
+                  </Fragment>
+                );
+              }}
             </Field>
-            <Button type="submit" appearance="primary">
-              Submit
-            </Button>
+            <FormFooter>
+              <ButtonGroup>
+                <Button appearance="subtle-link">
+                  <Link to="/login">
+                    Already have an account? Sign in here.
+                  </Link>
+                </Button>
+                <Button appearance="subtle">Cancel</Button>
+                <LoadingButton
+                  type="submit"
+                  appearance="primary"
+                  isLoading={submitting}
+                >
+                  Sign up
+                </LoadingButton>
+              </ButtonGroup>
+            </FormFooter>
           </form>
         )}
       </Form>
@@ -87,94 +162,6 @@ const SignUpForm = () => {
 };
 
 export { SignUpForm };
-
-// <div
-//   style={{
-//     display: "flex",
-//     width: "400px",
-//     maxWidth: "100%",
-//     margin: "0 auto",
-//     flexDirection: "column",
-//   }}
-// >
-//   <h2> Sign Up</h2>
-//   {/* {JSON.stringify(currentUser)} */}
-//   <Form onSubmit={handleSubmit}>
-//     {({ formProps, submitting }) => (
-//       <form {...formProps}>
-//         <Field
-//           ref={emailRef}
-//           name="email"
-//           label="Email"
-//           isRequired
-//           defaultValue=""
-//         >
-//           {({ fieldProps, error }) => (
-//             <Fragment>
-//               <TextField autoComplete="off" {...fieldProps} />
-//               {error && (
-//                 <ErrorMessage>
-//                   This email is already in use, try another one.
-//                 </ErrorMessage>
-//               )}
-//             </Fragment>
-//           )}
-//         </Field>
-//         <Field
-//           ref={passwordRef}
-//           name="password"
-//           label="Password"
-//           defaultValue=""
-//           isRequired
-//           validate={(value) =>
-//             value && value.length < 8
-//               ? "Your password length needs to be at least 8 characters."
-//               : undefined
-//           }
-//         >
-//           {({ fieldProps, error, valid, meta }) => {
-//             return (
-//               <Fragment>
-//                 <TextField type="password" {...fieldProps} />
-//                 {error && !valid && (
-//                   <HelperMessage>
-//                     Use 8 or more characters with a mix of letters, numbers
-//                     & symbols.
-//                   </HelperMessage>
-//                 )}
-//                 {error && (
-//                   <ErrorMessage>
-//                     Password needs to be more than 8 characters.
-//                   </ErrorMessage>
-//                 )}
-//                 {valid && meta.dirty ? (
-//                   <ValidMessage>Awesome password!</ValidMessage>
-//                 ) : null}
-//               </Fragment>
-//             );
-//           }}
-//         </Field>
-//         <FormFooter>
-//           <ButtonGroup>
-//             <Button appearance="subtle-link">
-//               <Link to="/login">
-//                 Already have an account? Sign in here.
-//               </Link>
-//             </Button>
-//             <Button appearance="subtle">Cancel</Button>
-//             <LoadingButton
-//               type="submit"
-//               appearance="primary"
-//               isLoading={submitting}
-//             >
-//               Sign up
-//             </LoadingButton>
-//           </ButtonGroup>
-//         </FormFooter>
-//       </form>
-//     )}
-//   </Form>
-// </div>
 
 // const SignUpForm = () => {
 //   const [email, setEmail] = useState("");
