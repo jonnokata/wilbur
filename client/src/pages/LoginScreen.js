@@ -3,6 +3,7 @@ import { LoginForm } from "../components/Users/LoginForm";
 import { SignUpForm } from "../components/Users/SignUpForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
+import { PagesContainer } from "./PagesContainer";
 
 const Container = styled.div`
   position: relative;
@@ -15,8 +16,8 @@ const LoginScreen = () => {
     <Router>
       <Container>
         <Switch>
-          <Route path="/user/signup" component={SignUpForm}></Route>
-          {/* <Route path="/user/login" component={LoginForm}></Route> */}
+          <Route path="/user/signup" component={SignUpForm} />
+          <Route path="/user/login" component={LoginForm}></Route>
         </Switch>
       </Container>
     </Router>

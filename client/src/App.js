@@ -10,8 +10,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 export const App = () => {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         {/* <GlobalStyle /> */}
 
         <Switch>
@@ -20,11 +20,11 @@ export const App = () => {
             path="/"
             component={PagesContainer}
           ></PrivateRoute> */}
-          {/* <Route path="/" component={PagesContainer}></Route> */}
+          <Route exact path="/" component={PagesContainer} />
           <Route path="/user" component={LoginScreen}></Route>
         </Switch>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
   // <UserProvider>
   //   const user = null; return user ? (

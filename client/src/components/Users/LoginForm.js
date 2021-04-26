@@ -1,3 +1,90 @@
+import React, { Fragment, useRef, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import Form, {
+  ErrorMessage,
+  Field,
+  FormSection,
+  FormHeader,
+  FormFooter,
+  ValidMessage,
+  HelperMessage,
+} from "@atlaskit/form";
+import TextField from "@atlaskit/textfield";
+import Button from "@atlaskit/button";
+import ButtonGroup from "@atlaskit/button/button-group";
+import LoadingButton from "@atlaskit/button/loading-button";
+import { useAuth } from "../../contexts/AuthContext";
+
+const LoginForm = () => {
+  const { login } = useAuth();
+  const history = useHistory();
+
+  const handleSubmit = (data) => {
+    console.log("data: ", data);
+    login(data.email, data.password);
+    history.push("/");
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        width: "400px",
+        maxWidth: "100%",
+        margin: "0 auto",
+        flexDirection: "column",
+      }}
+    >
+      {/* {JSON.stringify(currentUser)} */}
+      <Form onSubmit={handleSubmit}>
+        {({ formProps, submitting }) => (
+          <form {...formProps}>
+            <FormHeader title="Log In" />
+            <Field name="email" label="Email" isRequired defaultValue="">
+              {({ fieldProps, error }) => (
+                <Fragment>
+                  <TextField autoComplete="off" {...fieldProps} />
+                  {error && (
+                    <ErrorMessage>
+                      {/* This email is already in use, try another one. */}
+                    </ErrorMessage>
+                  )}
+                </Fragment>
+              )}
+            </Field>
+            <Field name="password" label="Password" defaultValue="" isRequired>
+              {({ fieldProps, error, valid, meta }) => {
+                return (
+                  <Fragment>
+                    <TextField type="password" {...fieldProps} />
+                  </Fragment>
+                );
+              }}
+            </Field>
+            <FormFooter>
+              <ButtonGroup>
+                <Button appearance="subtle-link">
+                  <Link to="/user/signup">Need an account? Sign up here.</Link>
+                </Button>
+                <Button appearance="subtle">Cancel</Button>
+                <LoadingButton
+                  type="submit"
+                  appearance="primary"
+                  isLoading={submitting}
+                >
+                  Log In
+                </LoadingButton>
+              </ButtonGroup>
+            </FormFooter>
+          </form>
+        )}
+      </Form>
+    </div>
+  );
+};
+
+export { LoginForm };
+
 // import React, { useState, Fragment, useRef } from "react";
 // import styled from "styled-components";
 // import { fromPairs } from "lodash";

@@ -17,10 +17,12 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const SignUpForm = () => {
   const { signup } = useAuth();
+  const history = useHistory();
 
   const handleSubmit = (data) => {
     console.log("data: ", data);
     signup(data.email, data.password);
+    history.push("/user/login");
   };
 
   return (
@@ -33,12 +35,11 @@ const SignUpForm = () => {
         flexDirection: "column",
       }}
     >
-      <h2> Sign Up</h2>
       {/* {JSON.stringify(currentUser)} */}
       <Form onSubmit={handleSubmit}>
         {({ formProps, submitting }) => (
           <form {...formProps}>
-            {/* <FormHeader title="Sign Up" /> */}
+            <FormHeader title="Sign Up" />
             <Field name="email" label="Email" isRequired defaultValue="">
               {({ fieldProps, error }) => (
                 <Fragment>
@@ -87,7 +88,7 @@ const SignUpForm = () => {
             <FormFooter>
               <ButtonGroup>
                 <Button appearance="subtle-link">
-                  <Link to="/login">
+                  <Link to="/user/login">
                     Already have an account? Sign in here.
                   </Link>
                 </Button>
