@@ -17,10 +17,12 @@ import {
 import { NewPageButton } from "./NewPageButton";
 import Button, { ButtonGroup } from "@atlaskit/button";
 import { v4 as uuidv4 } from "uuid";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const LeftNav = (props) => {
-  const { currentUser, loading } = useAuth();
+  const { currentUser, loading, logout } = useAuth();
+  const history = useHistory();
 
   const handleNewPageCreate = () => {
     const documentId = uuidv4();
@@ -45,7 +47,10 @@ const LeftNav = (props) => {
       });
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    logout();
+    history.push("/user/login");
+  };
 
   const openProfileModal = () => {};
 

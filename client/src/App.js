@@ -7,6 +7,7 @@ import { PasswordResetForm } from "./components/Users/PasswordResetForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { GlobalStyle } from "./theme/globalStyle";
 import { AuthProvider } from "./contexts/AuthContext";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 export const App = () => {
   return (
@@ -15,13 +16,13 @@ export const App = () => {
         {/* <GlobalStyle /> */}
 
         <Switch>
-          {/* <PrivateRoute
+          <PrivateRoute
             exact
             path="/"
             component={PagesContainer}
-          ></PrivateRoute> */}
+          ></PrivateRoute>
           <Route path="/user" component={LoginScreen}></Route>
-          <Route path="/" component={PagesContainer} />
+          {/* <Route path="/" component={PagesContainer} /> */}
         </Switch>
       </AuthProvider>
     </Router>
