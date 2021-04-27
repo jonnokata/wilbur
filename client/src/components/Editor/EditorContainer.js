@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Editor,
-  WithEditorActions,
-  EditorContext,
-} from "@atlaskit/editor-core";
+import { Editor } from "@atlaskit/editor-core";
 import _, { fromPairs } from "lodash";
 import { PageTitle } from "./PageTitle";
 import styled from "styled-components";
@@ -15,7 +11,9 @@ const EditorStyleContainer = styled.div`
 
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
-  const [editorState, setEditorState] = useState({});
+  const [editorState, setEditorState] = useState({
+    documentTitle: "",
+  });
 
   const handleTitleChange = (e) => {
     const newEditorState = { ...editorState };
@@ -25,7 +23,10 @@ const EditorContainer = (props) => {
 
   useEffect(() => {
     console.log("props.pageEdit", props.pageEdit);
-    setEditorState(props.pageEdit);
+    setEditorState({
+      documentContent: props.pageEdit.documentContent,
+      documentTitle: props.pageEdit.documentTitle,
+    });
   }, [props.pageEdit]);
 
   const handleContentChange = (actions) =>
@@ -50,57 +51,51 @@ const EditorContainer = (props) => {
 
   return (
     <EditorStyleContainer>
-      <EditorContext>
-        <WithEditorActions
-          render={(actions) => (
-            <Editor
-              contentComponents={
-                <input
-                  type="text"
-                  placeholder="Give this page a title"
-                  id="pageTitle"
-                  value={editorState.documentTitle}
-                  onChange={handleTitleChange}
-                />
-              }
-              defaultValue={""}
-              // value={editorState.documentContent}
-              onChange={handleContentChange(actions)}
-              appearance="full-width"
-              allowFindReplace={true}
-              allowExpand={{
-                allowInsertion: true,
-                allowInteractiveExpand: true,
-              }}
-              placeholder="G'day! Type away :)"
-              placeholderHints={["Type / to insert content"]}
-              allowDate={true}
-              allowKeyboardAccessibleDatepicker={true}
-              allowStatus={true}
-              allowLayouts={true}
-              allowPanel={true}
-              allowBlockType={true}
-              allowBreakout={true}
-              allowTextColor={true}
-              allowTables={{
-                advanced: true,
-                allowBackgroundColor: true,
-                allowHeaderColumn: true,
-                allowHeaderRow: true,
-                allowMergeCells: true,
-                allowNumberColumn: true,
-                allowColumnSorting: true,
-                stickToolbarToBottom: true,
-                tableCellOptimization: true,
-                stickyHeaders: true,
-                stickyHeadersOptimization: true,
-                initialRenderOptimization: true,
-                mouseMoveOptimization: true,
-              }}
-            />
-          )}
-        ></WithEditorActions>
-      </EditorContext>
+      <Editor
+        contentComponents={
+          <input
+            type="text"
+            placeholder="Give this page a title"
+            id="pageTitle"
+            value={editorState.documentTitle}
+            onChange={handleTitleChange}
+          />
+        }
+        defaultValue={""}
+        // value={editorState.documentContent}
+        onChange={handleContentChange(props.actions)}
+        appearance="full-width"
+        allowFindReplace={true}
+        allowExpand={{
+          allowInsertion: true,
+          allowInteractiveExpand: true,
+        }}
+        placeholder="G'day! Type away :)"
+        placeholderHints={["Type / to insert content"]}
+        allowDate={true}
+        allowKeyboardAccessibleDatepicker={true}
+        allowStatus={true}
+        allowLayouts={true}
+        allowPanel={true}
+        allowBlockType={true}
+        allowBreakout={true}
+        allowTextColor={true}
+        allowTables={{
+          advanced: true,
+          allowBackgroundColor: true,
+          allowHeaderColumn: true,
+          allowHeaderRow: true,
+          allowMergeCells: true,
+          allowNumberColumn: true,
+          allowColumnSorting: true,
+          stickToolbarToBottom: true,
+          tableCellOptimization: true,
+          stickyHeaders: true,
+          stickyHeadersOptimization: true,
+          initialRenderOptimization: true,
+          mouseMoveOptimization: true,
+        }}
+      />
     </EditorStyleContainer>
   );
 };

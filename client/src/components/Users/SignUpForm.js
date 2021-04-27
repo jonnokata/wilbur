@@ -88,9 +88,7 @@ const SignUpForm = () => {
             <FormFooter>
               <ButtonGroup>
                 <Button appearance="subtle-link">
-                  <Link to="/user/login">
-                    Already have an account? Sign in here.
-                  </Link>
+                  <Link to="/user/login">Have an account? Sign in here.</Link>
                 </Button>
                 <Button appearance="subtle">Cancel</Button>
                 <LoadingButton
@@ -98,7 +96,7 @@ const SignUpForm = () => {
                   appearance="primary"
                   isLoading={submitting}
                 >
-                  Sign up
+                  Sign Up
                 </LoadingButton>
               </ButtonGroup>
             </FormFooter>

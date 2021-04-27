@@ -28,6 +28,7 @@ const LeftNav = (props) => {
     const documentId = uuidv4();
     const newPage = {
       documentId,
+      // userId,
       documentTitle: "",
       documentContent: { version: 1, type: "doc", content: [] },
     };
@@ -37,13 +38,14 @@ const LeftNav = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newPage),
+      // send user id here
     })
       .then((res) => {
         console.log("res: ", res);
         return res.json();
       })
       .then((data) => {
-        props.onDocumentCreate(data);
+        props.onDocumentCreate(data.documentContent);
       });
   };
 
