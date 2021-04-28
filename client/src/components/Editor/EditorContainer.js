@@ -37,7 +37,7 @@ const EditorContainer = (props) => {
           documentTitle: editorState.documentTitle,
           documentContent: adf,
         };
-        fetch(`api/pages/update-page/${editorState._id}`, {
+        fetch(`/api/pages/update-page/${editorState._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

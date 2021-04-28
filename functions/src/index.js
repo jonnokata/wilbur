@@ -1,4 +1,6 @@
 "use strict";
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 const express = require("express");
 const cors = require("cors");
 const config = require("./config");
@@ -10,7 +12,7 @@ app.use(cors());
 
 // Import all routers
 const internalRouter = require("./routes/internalRoutes");
-//const userRouter = require("./routes/userRoutes");
+// const userRouter = require("./routes/userRoutes");
 const pageRouter = require("./routes/pageRoutes");
 
 // Add middleware to be able to read and understand json files
@@ -25,6 +27,8 @@ app.use("/api/pages", pageRouter);
 app.listen(config.port, () =>
   console.log(`Wilbur is listening at http://localhost:${config.port}`)
 );
+
+exports.app = functions.https.onRequest(app);
 
 // const express = require("express");
 // const session = require("express-session");

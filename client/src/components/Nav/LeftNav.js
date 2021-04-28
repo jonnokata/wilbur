@@ -32,7 +32,7 @@ const LeftNav = (props) => {
       documentTitle: "",
       documentContent: { version: 1, type: "doc", content: [] },
     };
-    fetch(`http://localhost:3000/api/pages/new-page`, {
+    fetch(`/api/pages/new-page`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
