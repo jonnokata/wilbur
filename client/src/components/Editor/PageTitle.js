@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+const TitleContainer = styled.input`
+  border: none;
+`;
+
 const PageTitle = () => {
   const [pageTitle, setPageTitle] = useState("");
 
   return (
-    <input type="text" placeholder="Give this page a title" id="pageTitle" />
+    <TitleContainer
+      type="text"
+      placeholder="Give this page a title"
+      id="pageTitle"
+    />
   );
 };
 

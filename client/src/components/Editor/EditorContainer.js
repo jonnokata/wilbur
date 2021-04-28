@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Editor } from "@atlaskit/editor-core";
 import _, { fromPairs } from "lodash";
-import { PageTitle } from "./PageTitle";
+// import { PageTitle } from "./PageTitle";
 import styled from "styled-components";
 
 const EditorStyleContainer = styled.div`
   height: 100%;
-  padding: 0 32px;
+  padding: 16px 32px;
+`;
+
+const TitleContainer = styled.input`
+  border: none;
+  width: 100%;
+  outline: none;
+  height: 32px;
+  font-size: 32px;
+  padding: 0px 0px 32px 0px;
 `;
 
 // UPDATE PAGE CONTENT
@@ -53,10 +62,11 @@ const EditorContainer = (props) => {
     <EditorStyleContainer>
       <Editor
         contentComponents={
-          <input
+          <TitleContainer
             type="text"
             placeholder="Give this page a title"
             id="pageTitle"
+            autoComplete="off"
             value={editorState.documentTitle}
             onChange={handleTitleChange}
           />

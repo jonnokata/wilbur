@@ -22,18 +22,27 @@ router.post("/new-page", (req, res) => {
   res.send({ status: 200 });
 });
 
-// // PATCH - update content
-// router.patch("/update-page/:id", async (req, res) => {
-//   console.log(req.body);
-//   console.log(req.params.id);
-//   const updatedPage = await PageModel.findByIdAndUpdate(
-//     req.params.id,
-//     req.body,
-//     { new: true }
-//   );
-//   res.send(updatedPage);
-//   console.log(res.send);
-// });
+// router.post("/new-page", (req, res) => {
+//   const newPage = req.body;
+//   console.log("newPage: ", newPage);
+//   PageModel.create(newPage).then((data) => {
+//     console.log(data);
+//     res.send(data);
+//   });
+
+// PATCH - update content
+router.patch("/update-page/:id", async (req, res) => {
+  console.log(req.body);
+  console.log(req.params.id);
+  db.collection("pages").doc();
+  const updatedPage = await PageModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.send(updatedPage);
+  console.log(res.send);
+});
 
 // DELETE - delete page
 
