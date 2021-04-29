@@ -39,7 +39,7 @@ const LoginForm = () => {
       <Form onSubmit={handleSubmit}>
         {({ formProps, submitting }) => (
           <form {...formProps}>
-            <FormHeader title="Log In" />
+            {/* <FormHeader title="Log In" /> */}
             <Field name="email" label="Email" isRequired defaultValue="">
               {({ fieldProps, error }) => (
                 <Fragment>

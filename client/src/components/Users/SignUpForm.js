@@ -38,7 +38,7 @@ const SignUpForm = () => {
       <Form onSubmit={handleSubmit}>
         {({ formProps, submitting }) => (
           <form {...formProps}>
-            <FormHeader title="Sign Up" />
+            {/* <FormHeader title="Sign Up" /> */}
             <Field name="email" label="Email" isRequired defaultValue="">
               {({ fieldProps, error }) => (
                 <Fragment>

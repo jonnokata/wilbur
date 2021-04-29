@@ -11,6 +11,7 @@ import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import { FirebaseAuthProvider } from "@react-firebase/auth";
+import injectGlobal from "./fonts/fonts";
 
 const config = {
   apiKey: "AIzaSyCyqaVB7PobJR1EcsN6YXlFIxqv_tUNiRI",
@@ -27,6 +28,7 @@ export const App = () => {
     <FirebaseAuthProvider {...config} firebase={firebase}>
       <FirestoreProvider {...config} firebase={firebase}>
         <Router>
+          <injectGlobal />
           <AuthProvider>
             {/* <GlobalStyle /> */}
 
