@@ -10,9 +10,6 @@ import {
   NestableNavigationContent,
   Footer,
   NavigationFooter,
-  IconBefore,
-  CustomItem,
-  CustomItemComponentProps,
 } from "@atlaskit/side-navigation";
 import { NewPageButton } from "./NewPageButton";
 import Button, { ButtonGroup } from "@atlaskit/button";
@@ -29,31 +26,6 @@ const LeftNav = (props) => {
   const history = useHistory();
   const documentId = uuidv4();
 
-  const handleNewPageCreate = () => {
-    const documentId = uuidv4();
-    const newPage = {
-      documentId,
-      // userId,
-      documentTitle: "",
-      documentContent: { version: 1, type: "doc", content: [] },
-    };
-    fetch(`/api/pages/new-page`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPage),
-      // send user id here
-    })
-      .then((res) => {
-        console.log("res: ", res);
-        return res.json();
-      })
-      .then((data) => {
-        props.onDocumentCreate(data.documentContent);
-      });
-  };
-
   const handleLogout = () => {
     logout();
     history.push("/user/login");
@@ -61,15 +33,6 @@ const LeftNav = (props) => {
 
   const openProfileModal = () => {};
 
-  // const PageHeader = () => (
-  //   <CustomItem
-  //     href="/create-article-6"
-  //     component={CustomLink}
-  //     iconBefore={<AddItemIcon label="" />}
-  //   >
-  //     Custom create article
-  //   </CustomItem>
-  // );
   return (
     <SideNavigation label="Side Navigation">
       {/* User details */}
@@ -77,11 +40,6 @@ const LeftNav = (props) => {
         <Header iconBefore={<PersonIcon />}>
           {loading ? null : currentUser.email}
         </Header>
-        {/* <Header
-            component={
-              <CustomItem>{loading ? null : currentUser.email}</CustomItem>
-            }
-          ></Header> */}
       </NavigationHeader>
       <NestableNavigationContent>
         {/* Page tree */}
@@ -111,6 +69,7 @@ const LeftNav = (props) => {
                                 content: [],
                               },
                             }).then((res) => {
+                              props.setDocumentId(documentId);
                               console.log("Ran mutation ", res);
                             });
                           }}
@@ -124,7 +83,6 @@ const LeftNav = (props) => {
               );
             }}
           </FirebaseAuthConsumer>
-          {/* <NewPageButton onClick={hanleNewPageCreate} /> */}
         </Section>
       </NestableNavigationContent>
       <NavigationFooter>

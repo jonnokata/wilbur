@@ -18,6 +18,7 @@ const PagesContainer = () => {
     actions.replaceDocument(newDoc);
     setCurrentPage({ documentContent: newDoc, documentTitle: "" });
   };
+  const [documentId, setDocumentId] = useState("");
 
   return (
     <Wrapper>
@@ -36,6 +37,7 @@ const PagesContainer = () => {
                   >
                     <LeftNav
                       onDocumentCreate={onDocumentCreate(actions)}
+                      setDocumentId={setDocumentId}
                     ></LeftNav>
                   </LeftSidebar>
                 }
@@ -50,7 +52,11 @@ const PagesContainer = () => {
           ></div> */}
                 {
                   <Main testId="main" id="main" skipLinkTitle="Main Content">
-                    <EditorContainer actions={actions} pageEdit={currentPage} />
+                    <EditorContainer
+                      actions={actions}
+                      pageEdit={currentPage}
+                      documentId={documentId}
+                    />
                   </Main>
                 }
               </Content>
