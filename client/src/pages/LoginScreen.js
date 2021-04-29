@@ -12,15 +12,14 @@ const Container = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
-const Content = styled.div`
+const ContentContainer = styled.div`
   position: absolute;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: auto;
 `;
 
 const Heading = styled.div``;
@@ -29,7 +28,13 @@ const SubHeading = styled.div``;
 
 const FormContainer = styled.div``;
 
-// const WilburImage = styled.div``;
+const WilburImageContainer = styled.div`
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 60%;
+`;
 
 const LoginScreen = () => {
   return (
@@ -39,13 +44,15 @@ const LoginScreen = () => {
           <Grid>
             <GridColumn medium={7}></GridColumn>
             <GridColumn medium={5}> */}
-        <Content>
+        <WilburImageContainer>
           <WilburImage />
+        </WilburImageContainer>
+        <ContentContainer>
           <Switch>
             <Route path="/user/signup" component={SignUpForm} />
             <Route path="/user/login" component={LoginForm}></Route>
           </Switch>
-        </Content>
+        </ContentContainer>
         {/* </GridColumn>
           </Grid>
         </Page> */}

@@ -19,10 +19,15 @@ import Button, { ButtonGroup } from "@atlaskit/button";
 import { v4 as uuidv4 } from "uuid";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { FirestoreMutation } from "@react-firebase/firestore";
+import firebase from "firebase/app";
+import "firebase/auth";
+import { FirebaseAuthConsumer } from "@react-firebase/auth";
 
 const LeftNav = (props) => {
   const { currentUser, loading, logout } = useAuth();
   const history = useHistory();
+  const documentId = uuidv4();
 
   const handleNewPageCreate = () => {
     const documentId = uuidv4();
@@ -86,7 +91,40 @@ const LeftNav = (props) => {
 
         {/* Add page*/}
         <Section hasSeparator>
-          <NewPageButton onClick={handleNewPageCreate} />
+          <FirebaseAuthConsumer>
+            {({ isSignedIn, user, providerId }) => {
+              let docPath = "pages/" + documentId;
+              return (
+                <FirestoreMutation type="set" path={docPath}>
+                  {({ runMutation }) => {
+                    return (
+                      <div>
+                        <NewPageButton
+                          onClick={() => {
+                            runMutation({
+                              documentId,
+                              uid: user.uid,
+                              documentTitle: "",
+                              documentContent: {
+                                version: 1,
+                                type: "doc",
+                                content: [],
+                              },
+                            }).then((res) => {
+                              console.log("Ran mutation ", res);
+                            });
+                          }}
+                        >
+                          Mutate Set
+                        </NewPageButton>
+                      </div>
+                    );
+                  }}
+                </FirestoreMutation>
+              );
+            }}
+          </FirebaseAuthConsumer>
+          {/* <NewPageButton onClick={hanleNewPageCreate} /> */}
         </Section>
       </NestableNavigationContent>
       <NavigationFooter>
