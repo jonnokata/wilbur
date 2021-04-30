@@ -12,7 +12,6 @@ const Container = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
-  background-color: #f3f5f7;
 `;
 
 const WilburImage = styled.img`

@@ -21,8 +21,10 @@ const LoginForm = () => {
 
   const handleSubmit = (data) => {
     console.log("data: ", data);
-    login(data.email, data.password);
-    history.push("/");
+    login(data.email, data.password).then(() => {
+      console.log("login done");
+      history.push("/");
+    });
   };
 
   return (
