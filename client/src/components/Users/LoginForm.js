@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Form, {
   ErrorMessage,
@@ -21,10 +21,12 @@ const LoginForm = () => {
 
   const handleSubmit = (data) => {
     console.log("data: ", data);
-    login(data.email, data.password).then(() => {
-      console.log("login done");
-      history.push("/");
-    });
+    login(data.email, data.password);
+    // .then(() => {
+    //   console.log("login done");
+    //   history.push("/");
+    // });
+    history.push("/");
   };
 
   return (
@@ -37,11 +39,9 @@ const LoginForm = () => {
         flexDirection: "column",
       }}
     >
-      {/* {JSON.stringify(currentUser)} */}
       <Form onSubmit={handleSubmit}>
         {({ formProps, submitting }) => (
           <form {...formProps}>
-            {/* <FormHeader title="Log In" /> */}
             <Field name="email" label="Email" isRequired defaultValue="">
               {({ fieldProps, error }) => (
                 <Fragment>

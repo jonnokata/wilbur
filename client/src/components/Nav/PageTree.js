@@ -17,34 +17,36 @@ import ChevronRightIcon from "@atlaskit/icon/glyph/chevron-right";
 import ChevronDownIcon from "@atlaskit/icon/glyph/chevron-down";
 import EditorAddIcon from "@atlaskit/icon/glyph/editor/add";
 
+// const PADDING_PER_LEVEL = 16;
+
+const PreTextIcon = styled.span`
+  display: inline-block;
+  width: 16px;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+const getIcon = (item, onExpand, onCollapse) => {
+  if (item.children && item.children.length > 0) {
+    return item.isExpanded ? (
+      <PreTextIcon onClick={() => onCollapse(item.id)}>-</PreTextIcon>
+    ) : (
+      <PreTextIcon onClick={() => onExpand(item.id)}>+</PreTextIcon>
+    );
+  }
+  return <PreTextIcon></PreTextIcon>;
+};
+
 const PageTree = () => {
-  // const PADDING_PER_LEVEL = 16;
+  const [treeState, setTreeState] = useState();
 
-  // const PreTextIcon = styled.span`
-  //   display: inline-block;
-  //   width: 16px;
-  //   justify-content: center;
-  //   cursor: pointer;
-  // `;
+  const renderItem = ({}) => {};
 
-  // type State = {
-  //   tree: TreeData,
-  // };
+  const onExpand = ({}) => {};
 
-  // const getIcon = (
-  //   item: TreeItem,
-  //   onExpand: (itemId: ItemId) => void,
-  //   onCollapse: (itemId: ItemId) => void
-  // ) => {
-  //   if (item.children && item.children.length > 0) {
-  //     return item.isExpanded ? (
-  //       <PreTextIcon onClick={() => onCollapse(item.id)}>-</PreTextIcon>
-  //     ) : (
-  //       <PreTextIcon onClick={() => onExpand(item.id)}>+</PreTextIcon>
-  //     );
-  //   }
-  //   return <PreTextIcon>&bull;</PreTextIcon>;
-  // };
+  const onCollapse = ({}) => {};
+
+  const onDragEnd = ({}) => {};
 
   // export default class PureTree extends Component<void, State> {
   //   state = {
@@ -119,3 +121,28 @@ const PageTree = () => {
 };
 
 export { PageTree };
+
+// const getIcon = (item, onExpand, onCollapse) => {
+//   if (item.children && item.children.length > 0) {
+//     return item.isExpanded ? (
+//       <PreTextIcon onClick={() => onCollapse(item.id)}>-</PreTextIcon>
+//     ) : (
+//       <PreTextIcon onClick={() => onExpand(item.id)}>+</PreTextIcon>
+//     );
+//   }
+//   return <PreTextIcon></PreTextIcon>;
+// };
+
+// const PageTree = () => {
+
+// const renderItem = ({}) => {};
+
+//   const onExpand = ({}) => {};
+
+//   const onCollapse = ({}) => {};
+
+//   const onDragEnd = ({}) => {};
+
+// }
+
+// return ()

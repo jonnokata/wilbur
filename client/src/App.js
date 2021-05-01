@@ -3,10 +3,11 @@ import { PagesContainer } from "./pages/PagesContainer";
 import { LoginScreen } from "./pages/LoginScreen";
 import { PasswordResetForm } from "./components/Users/PasswordResetForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { GlobalStyle } from "./theme/globalStyle";
 import { AuthProvider } from "./contexts/AuthContext";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { FirestoreProvider } from "@react-firebase/firestore";
+import { LoginForm } from "./components/Users/LoginForm";
+import { SignUpForm } from "./components/Users/SignUpForm";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
@@ -30,16 +31,16 @@ export const App = () => {
         <Router>
           <injectGlobal />
           <AuthProvider>
-            {/* <GlobalStyle /> */}
-
             <Switch>
               {/* <PrivateRoute
-            exact
-            path="/"
-            component={PagesContainer}
-          ></PrivateRoute> */}
-              <Route path="/user" component={LoginScreen}></Route>
-              <Route path="/" component={PagesContainer} />
+                exact
+                path="/"
+                component={PagesContainer}
+              ></PrivateRoute> */}
+              <Route path="/user" component={LoginScreen} />{" "}
+              {/* <Route exact path="/user/signup" component={SignUpForm} />
+              <Route exact path="/user/login" component={LoginForm} /> */}
+              <Route exact path="/" component={PagesContainer} />
             </Switch>
           </AuthProvider>
         </Router>

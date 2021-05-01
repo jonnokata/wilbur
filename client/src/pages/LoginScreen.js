@@ -6,6 +6,7 @@ import styled from "styled-components";
 // import { ReactComponent as WilburImage } from "../assets/WilburImage.svg";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { Header } from "@atlaskit/side-navigation";
+import { PagesContainer } from "./PagesContainer";
 
 const Container = styled.div`
   position: relative;
@@ -52,24 +53,17 @@ const LoginScreen = () => {
   return (
     <Router>
       <Container>
-        {/* <Page>
-          <Grid>
-            <GridColumn medium={7}></GridColumn>
-            <GridColumn medium={5}> */}
         <WilburImage src="../assets/WilburImage.svg" />
         <ParentContentContainer>
           <ChildContentContainer>
             <Heading>Wilbur</Heading>
             <SubHeading>Beautifully simple notes</SubHeading>
             <Switch>
-              <Route path="/user/signup" component={SignUpForm} />
-              <Route path="/user/login" component={LoginForm}></Route>
+              <Route exact path="/user/signup" component={SignUpForm} />
+              <Route exact path="/user/login" component={LoginForm} />
             </Switch>
           </ChildContentContainer>
         </ParentContentContainer>
-        {/* </GridColumn>
-          </Grid>
-        </Page> */}
       </Container>
     </Router>
   );

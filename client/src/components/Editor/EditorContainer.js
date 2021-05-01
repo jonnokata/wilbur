@@ -73,10 +73,10 @@ const EditorContainer = (props) => {
                   id="pageTitle"
                   autoComplete="off"
                   value={editorState.documentTitle}
-                  onChange={(evt) => {
-                    handleTitleChange(evt);
+                  onChange={(e) => {
+                    handleTitleChange(e);
                     runMutationDebounced(runMutation, {
-                      documentTitle: evt.target.value,
+                      documentTitle: e.target.value,
                     });
                   }}
                 />

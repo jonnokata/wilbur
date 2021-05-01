@@ -20,6 +20,7 @@ import { FirestoreMutation } from "@react-firebase/firestore";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
+import { UpdateProfile } from "../Users/UpdateProfile";
 
 const LeftNav = (props) => {
   const { currentUser, loading, logout } = useAuth();
@@ -30,8 +31,6 @@ const LeftNav = (props) => {
     logout();
     history.push("/user/login");
   };
-
-  const openProfileModal = () => {};
 
   return (
     <SideNavigation label="Side Navigation">
@@ -92,13 +91,14 @@ const LeftNav = (props) => {
               Log Out
             </Button>
             {" ∙ "}
-            <Button
+            <UpdateProfile />
+            {/* <Button
               appearance="link"
               spacing="compact"
               onClick={openProfileModal}
             >
               Update Details
-            </Button>
+            </Button> */}
           </Fragment>
         </Footer>
       </NavigationFooter>
