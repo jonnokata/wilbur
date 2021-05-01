@@ -50,6 +50,7 @@ const EditorContainer = (props) => {
 
   const runMutationDebounced = useCallback(
     _.debounce((runMutation, properties) => {
+      console.log("before running mutation ");
       // console.log("runMutationDebounced");
       runMutation(properties).then((res) => {
         console.log("Ran mutation ", res);
@@ -66,21 +67,21 @@ const EditorContainer = (props) => {
           console.log(editorState.documentTitle);
           return (
             <Editor
-              contentComponents={
-                <TitleContainer
-                  type="text"
-                  placeholder="Give this page a title"
-                  id="pageTitle"
-                  autoComplete="off"
-                  value={editorState.documentTitle}
-                  onChange={(e) => {
-                    handleTitleChange(e);
-                    runMutationDebounced(runMutation, {
-                      documentTitle: e.target.value,
-                    });
-                  }}
-                />
-              }
+              // contentComponents={
+              //   <TitleContainer
+              //     type="text"
+              //     placeholder="Give this page a title"
+              //     id="pageTitle"
+              //     autoComplete="off"
+              //     value={editorState.documentTitle}
+              //     onChange={(e) => {
+              //       handleTitleChange(e);
+              //       runMutationDebounced(runMutation, {
+              //         documentTitle: e.target.value,
+              //       });
+              //     }}
+              //   />
+              // }
               defaultValue={""}
               onChange={() => {
                 console.log("handleContentChange");
@@ -88,7 +89,7 @@ const EditorContainer = (props) => {
                   // console.log("ADF: ", adf);
                   // console.log("Document Title: ", editorState.documentTitle);
                   runMutationDebounced(runMutation, {
-                    documentTitle: editorState.documentTitle,
+                    // documentTitle: editorState.documentTitle,
                     documentContent: adf,
                   });
                 });
