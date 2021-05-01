@@ -47,10 +47,10 @@ const EditorContainer = (props) => {
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
   // console.log("docPath: ", docPath);
+  const [loading, setLoading] = useState(true);
 
   const runMutationDebounced = useCallback(
     _.debounce((runMutation, properties) => {
-      console.log("before running mutation ");
       // console.log("runMutationDebounced");
       runMutation(properties).then((res) => {
         console.log("Ran mutation ", res);
@@ -59,6 +59,7 @@ const EditorContainer = (props) => {
     []
   );
 
+  console.log("Docpath: ", docPath);
   return (
     <EditorStyleContainer>
       <FirestoreMutation type="update" path={docPath}>
@@ -76,7 +77,8 @@ const EditorContainer = (props) => {
               //     value={editorState.documentTitle}
               //     onChange={(e) => {
               //       handleTitleChange(e);
-              //       runMutationDebounced(runMutation, {
+              //       console.log("e.target.value: ", e.target.value);
+              //       runMutation({
               //         documentTitle: e.target.value,
               //       });
               //     }}
