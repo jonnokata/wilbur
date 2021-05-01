@@ -50,6 +50,8 @@ const SubHeading = styled.div`
 const FormContainer = styled.div``;
 
 const LoginScreen = () => {
+  const [documentId, setDocumentId] = useState("");
+
   return (
     <Router>
       <Container>
@@ -59,7 +61,12 @@ const LoginScreen = () => {
             <Heading>Wilbur</Heading>
             <SubHeading>Beautifully simple notes</SubHeading>
             <Switch>
-              <Route exact path="/user/signup" component={SignUpForm} />
+              <Route
+                exact
+                path="/user/signup"
+                component={SignUpForm}
+                setDocumentId={setDocumentId}
+              />
               <Route exact path="/user/login" component={LoginForm} />
             </Switch>
           </ChildContentContainer>

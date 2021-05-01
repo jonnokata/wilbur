@@ -47,7 +47,7 @@ const EditorContainer = (props) => {
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
   // console.log("docPath: ", docPath);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const runMutationDebounced = useCallback(
     _.debounce((runMutation, properties) => {
