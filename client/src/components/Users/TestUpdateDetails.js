@@ -12,7 +12,7 @@ export default function Example() {
   const open = () => setIsOpen(true);
   const [name, setName] = useState('');
 
-  const CustomContainer = useCallback((props: ContainerComponentProps) => {
+  const CustomContainer = useCallback((ContainerComponentProps) => {
     return (
       <form
         {...props}
@@ -31,7 +31,7 @@ export default function Example() {
         {props.children}
       </form>
     );
-  }, []);
+  }, []); 
 
   return (
     <>

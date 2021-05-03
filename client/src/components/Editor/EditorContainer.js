@@ -24,25 +24,17 @@ const TitleContainer = styled.input`
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
   const [editorState, setEditorState] = useState({
-    documentTitle: "",
+    documentContent: props.pageEdit?.documentContent || "",
+    documentTitle: props.pageEdit?.documentTitle || "",
   });
 
   const handleTitleChange = (e) => {
-    console.log(e.target.value);
-    const newEditorState = { ...editorState };
-    newEditorState.documentTitle = e.target.value;
-    setEditorState(newEditorState);
-  };
-  // console.log("props.actions ", props.actions);
-  // console.log("editorState", editorState);
-
-  useEffect(() => {
-    // console.log("props.pageEdit", props.pageEdit);
-    setEditorState({
-      documentContent: props.pageEdit.documentContent,
-      documentTitle: props.pageEdit.documentTitle,
+    console.log(e.target.value, {
+      ...editorState,
+      documentTitle: e.target.value,
     });
-  }, [props.pageEdit]);
+    setEditorState({ ...editorState, documentTitle: e.target.value });
+  };
 
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
@@ -65,25 +57,25 @@ const EditorContainer = (props) => {
       <FirestoreMutation type="update" path={docPath}>
         {({ runMutation }) => {
           // console.log("props.actions: ", props.actions);
-          console.log(editorState.documentTitle);
+          console.log(editorState.documentTitle || "");
           return (
             <Editor
-              // contentComponents={
-              //   <TitleContainer
-              //     type="text"
-              //     placeholder="Give this page a title"
-              //     id="pageTitle"
-              //     autoComplete="off"
-              //     value={editorState.documentTitle}
-              //     onChange={(e) => {
-              //       handleTitleChange(e);
-              //       console.log("e.target.value: ", e.target.value);
-              //       runMutation({
-              //         documentTitle: e.target.value,
-              //       });
-              //     }}
-              //   />
-              // }
+              contentComponents={
+                <TitleContainer
+                  type="text"
+                  placeholder="Give this page a title"
+                  id="pageTitle"
+                  autoComplete="off"
+                  defaultValue={editorState.documentTitle || ""}
+                  onChange={(e) => {
+                    handleTitleChange(e);
+                    console.log("e.target.value: ", e.target.value);
+                    runMutation({
+                      documentTitle: e.target.value,
+                    });
+                  }}
+                />
+              }
               defaultValue={""}
               onChange={() => {
                 console.log("handleContentChange");
@@ -91,7 +83,7 @@ const EditorContainer = (props) => {
                   // console.log("ADF: ", adf);
                   // console.log("Document Title: ", editorState.documentTitle);
                   runMutationDebounced(runMutation, {
-                    // documentTitle: editorState.documentTitle,
+                    // documentTitle: editorState.documentTitle || "",
                     documentContent: adf,
                   });
                 });
