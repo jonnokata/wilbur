@@ -26,6 +26,11 @@ const LeftNav = (props) => {
   const { currentUser, loading, logout } = useAuth();
   const history = useHistory();
   const documentId = uuidv4();
+  const documentContent = {
+    version: 1,
+    type: "doc",
+    content: [],
+  };
 
   const handleLogout = () => {
     logout();
@@ -62,15 +67,20 @@ const LeftNav = (props) => {
                               documentId,
                               uid: user.uid,
                               documentTitle: "",
-                              documentContent: {
-                                version: 1,
-                                type: "doc",
-                                content: [],
-                              },
+                              documentContent,
+                              // documentContent: {
+                              //   version: 1,
+                              //   type: "doc",
+                              //   content: [],
+                              // },
                             }).then((res) => {
                               props.setDocumentId(documentId);
                               console.log("Ran mutation ", res);
                             });
+                            // .then((data) => {
+                            //   props.onDocumentCreate(data);
+                            //   props.onDocumentCreate(data.documentContent);
+                            // });
                           }}
                         >
                           Mutate Set

@@ -51,6 +51,14 @@ const EditorContainer = (props) => {
     []
   );
 
+  useEffect(() => {
+    console.log("Changed:", props.pageEdit);
+    setEditorState({
+      documentContent: props.pageEdit?.documentContent || "",
+      documentTitle: props.pageEdit?.documentTitle || "",
+    });
+  }, [props.documentId]);
+
   console.log("Docpath: ", docPath);
   return (
     <EditorStyleContainer>
