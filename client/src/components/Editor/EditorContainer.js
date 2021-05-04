@@ -23,11 +23,13 @@ const TitleContainer = styled.input`
 
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
+  console.log("Changed SPENCE:", props.pageEdit);
   const [editorState, setEditorState] = useState({
     documentContent: props.pageEdit?.documentContent || "",
     documentTitle: props.pageEdit?.documentTitle || "",
   });
 
+  console.log("Changed SPENCE2:", editorState.documentTitle);
   const handleTitleChange = (e) => {
     console.log(e.target.value, {
       ...editorState,
@@ -52,7 +54,6 @@ const EditorContainer = (props) => {
   );
 
   useEffect(() => {
-    console.log("Changed:", props.pageEdit);
     setEditorState({
       documentContent: props.pageEdit?.documentContent || "",
       documentTitle: props.pageEdit?.documentTitle || "",

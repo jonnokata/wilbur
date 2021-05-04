@@ -73,14 +73,13 @@ const LeftNav = (props) => {
                               //   type: "doc",
                               //   content: [],
                               // },
-                            }).then((res) => {
-                              props.setDocumentId(documentId);
-                              console.log("Ran mutation ", res);
-                            });
-                            // .then((data) => {
-                            //   props.onDocumentCreate(data);
-                            //   props.onDocumentCreate(data.documentContent);
-                            // });
+                            })
+                              .then((res) => {
+                                props.setDocumentId(documentId);
+                                console.log("Ran mutation ", res);
+                                props.onDocumentCreate(documentContent);
+                              })
+                              .catch(console.error);
                           }}
                         >
                           Mutate Set
