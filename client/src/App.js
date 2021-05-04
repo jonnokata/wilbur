@@ -1,4 +1,5 @@
 // import { BrowserRouter as Router } from "react-router-dom";
+import React, { useState } from "react";
 import { PagesContainer } from "./pages/PagesContainer";
 import { LoginScreen } from "./pages/LoginScreen";
 import { PasswordResetForm } from "./components/Users/PasswordResetForm";
@@ -6,8 +7,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { FirestoreProvider } from "@react-firebase/firestore";
-// import { LoginForm } from "./components/Users/LoginForm";
-// import { SignUpForm } from "./components/Users/SignUpForm";
+import { LoginForm } from "./components/Users/LoginForm";
+import { SignUpForm } from "./components/Users/SignUpForm";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
@@ -25,10 +26,12 @@ const config = {
 };
 
 export const App = () => {
+  const [documentId, setDocumentId] = useState("");
+
   return (
-    <FirebaseAuthProvider {...config} firebase={firebase}>
-      <FirestoreProvider {...config} firebase={firebase}>
-        <Router>
+    <Router>
+      <FirebaseAuthProvider {...config} firebase={firebase}>
+        <FirestoreProvider {...config} firebase={firebase}>
           <injectGlobal />
           <AuthProvider>
             <Switch>
@@ -37,14 +40,22 @@ export const App = () => {
                 path="/"
                 component={PagesContainer}
               ></PrivateRoute> */}
-              <Route path="/user" component={LoginScreen} />{" "}
-              {/* <Route exact path="/user/signup" component={SignUpForm} />
-              <Route exact path="/user/login" component={LoginForm} /> */}
+              {/* <Route exact path="/user" component={LoginScreen} />{" "} */}
+              <Route exact path="/user/signup">
+                <LoginScreen>
+                  <SignUpForm />
+                </LoginScreen>
+              </Route>
+              <Route exact path="/user/login">
+                <LoginScreen>
+                  <LoginForm />
+                </LoginScreen>
+              </Route>
               <Route exact path="/" component={PagesContainer} />
             </Switch>
           </AuthProvider>
-        </Router>
-      </FirestoreProvider>
-    </FirebaseAuthProvider>
+        </FirestoreProvider>
+      </FirebaseAuthProvider>
+    </Router>
   );
 };

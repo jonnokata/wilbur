@@ -42,7 +42,7 @@ const LeftNav = (props) => {
       {/* User details */}
       <NavigationHeader>
         <Header iconBefore={<PersonIcon />}>
-          {loading ? null : currentUser.email}
+          {/* {loading ? null : currentUser.email} */}
         </Header>
       </NavigationHeader>
       <NestableNavigationContent>

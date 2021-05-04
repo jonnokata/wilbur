@@ -49,30 +49,18 @@ const SubHeading = styled.div`
 
 const FormContainer = styled.div``;
 
-const LoginScreen = () => {
-  const [documentId, setDocumentId] = useState("");
-
+const LoginScreen = (props) => {
   return (
-    <Router>
-      <Container>
-        <WilburImage src="../assets/WilburImage.svg" />
-        <ParentContentContainer>
-          <ChildContentContainer>
-            <Heading>Wilbur</Heading>
-            <SubHeading>Beautifully simple notes</SubHeading>
-            <Switch>
-              <Route
-                exact
-                path="/user/signup"
-                component={SignUpForm}
-                setDocumentId={setDocumentId}
-              />
-              <Route exact path="/user/login" component={LoginForm} />
-            </Switch>
-          </ChildContentContainer>
-        </ParentContentContainer>
-      </Container>
-    </Router>
+    <Container>
+      <WilburImage src="../assets/WilburImage.svg" />
+      <ParentContentContainer>
+        <ChildContentContainer>
+          <Heading>Wilbur</Heading>
+          <SubHeading>Beautifully simple notes</SubHeading>
+          {props.children}
+        </ChildContentContainer>
+      </ParentContentContainer>
+    </Container>
   );
 };
 
