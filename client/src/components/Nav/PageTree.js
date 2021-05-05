@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import Tree, {
   mutateTree,
@@ -16,6 +16,7 @@ import Button, { ButtonGroup } from "@atlaskit/button";
 import ChevronRightIcon from "@atlaskit/icon/glyph/chevron-right";
 import ChevronDownIcon from "@atlaskit/icon/glyph/chevron-down";
 import EditorAddIcon from "@atlaskit/icon/glyph/editor/add";
+import { Database } from "../../firebase";
 
 // const PADDING_PER_LEVEL = 16;
 
@@ -37,87 +38,112 @@ const getIcon = (item, onExpand, onCollapse) => {
   return <PreTextIcon></PreTextIcon>;
 };
 
+// id: ItemId;
+// children: ItemId[];
+// hasChildren?: boolean;
+// isExpanded?: boolean;
+// isChildrenLoading?: boolean;
+// data?: TreeItemData;
+
 const PageTree = () => {
-  const [treeState, setTreeState] = useState();
+  const [tree, setTree] = useState();
 
-  const renderItem = ({}) => {};
+  useEffect(() => {
+    const fn = async () => {
+      const allPages = await Database.collection("pages").get();
+      const newTree = {
+        rootId: "root",
+        items: {
+          root: {
+            id: "root",
+            children: [],
+          },
+        },
+      };
+      allPages.docs.forEach((doc) => {
+        const data = doc.data();
 
-  const onExpand = ({}) => {};
+        const id = data.documentId;
+        if (id) {
+          console.log(id);
+          newTree.items[id] = {
+            id,
+            children: [],
+            data: data,
+          };
+          newTree.items["root"].children.push(id);
+        }
+      });
+      console.log(newTree);
+      setTree(newTree);
+    };
+    fn();
+  }, []);
 
-  const onCollapse = ({}) => {};
+  const renderItem = useCallback(({ item, onExpand, onCollapse, provided }) => {
+    return (
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
+        <span>{item.data ? item.data.documentTitle : ""}</span>
+      </div>
+    );
+  }, []);
 
-  const onDragEnd = ({}) => {};
+  const onExpand = useCallback(
+    (itemId) => {
+      setTree({
+        tree: mutateTree(tree, itemId, { isExpanded: true }),
+      });
+    },
+    [tree]
+  );
 
-  // export default class PureTree extends Component<void, State> {
-  //   state = {
-  //     tree: treeWithTwoBranches,
-  //   };
+  const onCollapse = useCallback(
+    (itemId) => {
+      setTree({
+        tree: mutateTree(tree, itemId, { isExpanded: false }),
+      });
+    },
+    [tree]
+  );
 
-  //   renderItem = ({
-  //     item,
-  //     onExpand,
-  //     onCollapse,
-  //     provided,
-  //   }: RenderItemParams) => {
-  //     return (
-  //       <div
-  //         ref={provided.innerRef}
-  //         {...provided.draggableProps}
-  //         {...provided.dragHandleProps}
-  //       >
-  //         <span>{getIcon(item, onExpand, onCollapse)}</span>
-  //         <span>{item.data ? item.data.title : ""}</span>
-  //       </div>
-  //     );
-  //   };
+  const onDragEnd = useCallback(
+    (source, destination) => {
+      if (!destination) {
+        return;
+      }
+      const newTree = moveItemOnTree(tree, source, destination);
+      setTree({
+        tree: newTree,
+      });
+    },
+    [tree]
+  );
 
-  //   onExpand = (itemId: ItemId) => {
-  //     const { tree }: State = this.state;
-  //     this.setState({
-  //       tree: mutateTree(tree, itemId, { isExpanded: true }),
-  //     });
-  //   };
-
-  //   onCollapse = (itemId: ItemId) => {
-  //     const { tree }: State = this.state;
-  //     this.setState({
-  //       tree: mutateTree(tree, itemId, { isExpanded: false }),
-  //     });
-  //   };
-
-  //   onDragEnd = (
-  //     source: TreeSourcePosition,
-  //     destination?: TreeDestinationPosition
-  //   ) => {
-  //     const { tree } = this.state;
-
-  //     if (!destination) {
-  //       return;
-  //     }
-  //     const newTree = moveItemOnTree(tree, source, destination);
-  //     this.setState({
-  //       tree: newTree,
-  //     });
-  //   };
-
-  //   render() {
-  //     const { tree } = this.state;
-
-  //     return (
-  //       <Tree
-  //         tree={tree}
-  //         renderItem={this.renderItem}
-  //         onExpand={this.onExpand}
-  //         onCollapse={this.onCollapse}
-  //         onDragEnd={this.onDragEnd}
-  //         offsetPerLevel={PADDING_PER_LEVEL}
-  //         isDragEnabled
-  //       />
-  //     );
-  //   }
-  // }
-
-  return <div>PAGE</div>;
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {tree ? (
+        <div>
+          {
+            <Tree
+              tree={tree}
+              renderItem={renderItem}
+              onExpand={onExpand}
+              onCollapse={onCollapse}
+              onDragEnd={onDragEnd}
+              offsetPerLevel={16}
+              isDragEnabled
+            />
+          }
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )}
+    </div>
+  );
 };
 
 export { PageTree };

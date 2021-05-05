@@ -46,11 +46,6 @@ const LeftNav = (props) => {
         </Header>
       </NavigationHeader>
       <NestableNavigationContent>
-        {/* Page tree */}
-        <Section hasSeparator>
-          <PageTree></PageTree>
-        </Section>
-
         {/* Add page*/}
         <Section hasSeparator>
           <FirebaseAuthConsumer>
@@ -91,6 +86,10 @@ const LeftNav = (props) => {
               );
             }}
           </FirebaseAuthConsumer>
+        </Section>
+        {/* Page tree */}
+        <Section hasSeparator>
+          <PageTree></PageTree>
         </Section>
       </NestableNavigationContent>
       <NavigationFooter>
