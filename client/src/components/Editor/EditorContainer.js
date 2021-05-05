@@ -24,7 +24,7 @@ const TitleContainer = styled.input`
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
   console.log("Changed SPENCE:", props.pageEdit);
-  const [editorState, setEditorState] = useState({
+  let [editorState, setEditorState] = useState({
     documentContent: props.pageEdit?.documentContent || "",
     documentTitle: props.pageEdit?.documentTitle || "",
   });

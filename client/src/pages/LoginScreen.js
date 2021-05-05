@@ -3,7 +3,10 @@ import { LoginForm } from "../components/Users/LoginForm";
 import { SignUpForm } from "../components/Users/SignUpForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
-// import { ReactComponent as WilburImage } from "../assets/WilburImage.svg";
+import { ReactComponent as WilburImage } from "../assets/WilburImage.svg";
+import { ReactComponent as WilburImage2 } from "../assets/WilburImage2.svg";
+// import { ReactComponent as PagesMan } from "../assets/PagesMan.svg";
+
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { Header } from "@atlaskit/side-navigation";
 import { PagesContainer } from "./PagesContainer";
@@ -15,7 +18,13 @@ const Container = styled.div`
   display: flex;
 `;
 
-const WilburImage = styled.img`
+// const WilburImage = styled.img`
+//   position: absolute;
+//   left: 0vh;
+//   height: 65vh;
+// `;
+
+const ImageContainer = styled.div`
   position: absolute;
   left: 0vh;
   height: 65vh;
@@ -47,12 +56,17 @@ const SubHeading = styled.div`
   margin-bottom: 32px;
 `;
 
+// src="../assets/WilburImage.svg"
+
 const FormContainer = styled.div``;
 
 const LoginScreen = (props) => {
   return (
     <Container>
-      <WilburImage src="../assets/WilburImage.svg" />
+      {/* <ImageContainer> */}
+      {/* <WilburImage /> */}
+      <WilburImage2 />
+      {/* </ImageContainer> */}
       <ParentContentContainer>
         <ChildContentContainer>
           <Heading>Wilbur</Heading>
