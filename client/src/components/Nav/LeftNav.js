@@ -61,7 +61,7 @@ const LeftNav = (props) => {
                             runMutation({
                               documentId,
                               uid: user.uid,
-                              documentTitle: "",
+                              documentTitle: `Untitled ${Date.now()}`,
                               documentContent,
                             })
                               .then((res) => {
@@ -83,7 +83,11 @@ const LeftNav = (props) => {
         </Section>
         {/* Page tree */}
         <Section hasSeparator>
-          <PageTree onDocumentSelect={props.onDocumentSelect} />
+          <PageTree
+            onDocumentSelect={props.onDocumentSelect}
+            onDocumentDelete={props.handleDelete}
+            pages={props.pages}
+          />
         </Section>
       </NestableNavigationContent>
       <NavigationFooter>

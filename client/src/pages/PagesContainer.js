@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { EditorContainer } from "../components/Editor/EditorContainer";
 import { PageLayout, Main, Content, LeftSidebar } from "@atlaskit/page-layout";
@@ -12,30 +12,57 @@ const Wrapper = styled.div`
 `;
 
 const PagesContainer = (currentDocumentId) => {
+  const [pages, setPages] = useState([]);
   const [documentId, setDocumentId] = useState("");
-  const [editorContent, setEditorContent] = useState({
-    documentTitle: "",
-    documentContent: "",
-  });
-  // const docPath = "/pages ";
+  const [documentTitle, setDocumentTitle] = useState("");
+  const [documentContent, setDocumentContent] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  console.log("🚀 Current document ID", documentId);
 
   useEffect(() => {
     const fn = async () => {
       if (documentId) {
-        console.log("🚀 Document ID changed to", documentId);
+        console.log(
+          "🚀 PagesContainer.useEffect > Document ID changed to",
+          documentId
+        );
+        setIsFetching(true);
         const doc = await Database.doc(`pages/${documentId}`).get();
         const data = doc.data();
-        console.log("🚀 Data received", data);
-        setEditorContent({
-          documentTitle: data.documentTitle,
-          documentContent: data.documentContent,
-        });
+        console.log("🚀 PagesContainer.useEffect > Data received", data);
+        setDocumentTitle(data.documentTitle);
+        setDocumentContent(data.documentContent);
+        setIsFetching(false);
       }
     };
     fn();
   }, [documentId]);
 
-  console.log("changed to", documentId);
+  useEffect(() => {
+    const fn = async () => {
+      if (!isDeleting) {
+        const pagesCollection = await Database.collection("pages").get();
+        console.log("🚀 PagesContainer.useEffect", pagesCollection);
+        const pagesCollectionData = pagesCollection.docs.map((doc) =>
+          doc.data()
+        );
+        setPages(pagesCollectionData);
+      }
+    };
+    fn();
+  }, [isDeleting]);
+
+  const handleDelete = useCallback((documentId) => {
+    const fn = async () => {
+      if (documentId) {
+        setIsDeleting(true);
+        await Database.doc(`pages/${documentId}`).delete();
+        setIsDeleting(false);
+      }
+    };
+    fn();
+  }, []);
 
   return (
     <Wrapper>
@@ -55,6 +82,8 @@ const PagesContainer = (currentDocumentId) => {
                     <LeftNav
                       onDocumentCreate={() => {}}
                       onDocumentSelect={setDocumentId}
+                      onDelete={handleDelete}
+                      pages={pages}
                     />
                   </LeftSidebar>
                 }
@@ -62,10 +91,16 @@ const PagesContainer = (currentDocumentId) => {
                   <Main testId="main" id="main" skipLinkTitle="Main Content">
                     <EditorContainer
                       actions={actions}
+                      isFetching={isFetching}
                       documentId={documentId}
-                      documentTitle={editorContent.documentTitle}
-                      documentContent={editorContent.documentContent}
-                      onDocumentChange={actions.replaceDocument}
+                      documentTitle={documentTitle}
+                      documentContent={documentContent}
+                      onDocumentTitleChange={setDocumentTitle}
+                      onDocumentContentChange={setDocumentContent}
+                      onDocumentReplace={(adf) => {
+                        console.log(`🚀 Changing document to`, adf);
+                        actions.replaceDocument(adf);
+                      }}
                     />
                   </Main>
                 }

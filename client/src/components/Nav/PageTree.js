@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import Tree, {
-  mutateTree,
-  moveItemOnTree,
-  RenderItemParams,
-  TreeItem,
-  TreeData,
-  ItemId,
-  TreeSourcePosition,
-  TreeDestinationPosition,
-} from "@atlaskit/tree";
+import Tree, { mutateTree, moveItemOnTree } from "@atlaskit/tree";
 import Tooltip from "@atlaskit/tooltip";
 import { ButtonItem } from "@atlaskit/menu";
 import Button, { ButtonGroup } from "@atlaskit/button";
@@ -28,61 +19,56 @@ const PreTextIcon = styled.span`
 `;
 
 const PageTreeItem = styled.div`
-  width: 100%;
+  width: calc(100% - 32px);
   padding: 12px 16px;
   border-bottom: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 `;
 
-// id: ItemId;
-// children: ItemId[];
-// hasChildren?: boolean;
-// isExpanded?: boolean;
-// isChildrenLoading?: boolean;
-// data?: TreeItemData;
-
-const PageTree = ({ onDocumentSelect }) => {
+const PageTree = ({ onDocumentSelect, pages: allPages }) => {
   const [tree, setTree] = useState();
 
   useEffect(() => {
-    const fn = async () => {
-      const allPages = await Database.collection("pages").get();
-      const newTree = {
-        rootId: "root",
-        items: {
-          root: {
-            id: "root",
-            children: [],
-          },
+    const newTree = {
+      rootId: "root",
+      items: {
+        root: {
+          id: "root",
+          children: [],
         },
-      };
-      allPages.docs.forEach((doc) => {
-        const data = doc.data();
-
-        const id = data.documentId;
-        const title = data.documentTitle;
-        if (id && title.trim().length > 0) {
-          console.log(id);
-          newTree.items[id] = {
-            id,
-            children: [],
-            data: data,
-          };
-          newTree.items["root"].children.push(id);
-        }
-      });
-      console.log(newTree);
-      setTree(newTree);
+      },
     };
-    fn();
-  }, []);
+    allPages.forEach((page) => {
+      const id = page.documentId;
+      const title = page.documentTitle;
+      if (id && title.trim().length > 0) {
+        console.log(id);
+        newTree.items[id] = {
+          id,
+          children: [],
+          data: page,
+        };
+        newTree.items["root"].children.push(id);
+      }
+    });
+    setTree(newTree);
+  }, [allPages]);
 
   const renderItem = useCallback(({ item, onExpand, onCollapse, provided }) => {
+    const handleClick = () => {
+      console.log("🚀 Selecting document with id", item.data.documentId);
+      onDocumentSelect(item.data.documentId);
+    };
     return (
       <div
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
-        onClick={() => onDocumentSelect(item.data.documentId)}
+        onClick={handleClick}
       >
         <PageTreeItem>
           <span>{item.data ? item.data.documentTitle : ""}</span>
@@ -146,28 +132,3 @@ const PageTree = ({ onDocumentSelect }) => {
 };
 
 export { PageTree };
-
-// const getIcon = (item, onExpand, onCollapse) => {
-//   if (item.children && item.children.length > 0) {
-//     return item.isExpanded ? (
-//       <PreTextIcon onClick={() => onCollapse(item.id)}>-</PreTextIcon>
-//     ) : (
-//       <PreTextIcon onClick={() => onExpand(item.id)}>+</PreTextIcon>
-//     );
-//   }
-//   return <PreTextIcon></PreTextIcon>;
-// };
-
-// const PageTree = () => {
-
-// const renderItem = ({}) => {};
-
-//   const onExpand = ({}) => {};
-
-//   const onCollapse = ({}) => {};
-
-//   const onDragEnd = ({}) => {};
-
-// }
-
-// return ()

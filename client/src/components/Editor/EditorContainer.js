@@ -29,21 +29,34 @@ const EditorContainer = (props) => {
     documentId,
     documentTitle,
     documentContent,
-    onDocumentChange,
+    onDocumentReplace,
+    onDocumentTitleChange,
+    onDocumentContentChange,
+    isFetching,
   } = props;
+  console.log(
+    "🚀 EditorContainer.render > Editor received",
+    documentTitle,
+    documentContent
+  );
 
-  const [title, setTitle] = useState(documentTitle);
-  const [document, setDocument] = useState(documentContent);
-
-  const handleTitleChange = useCallback((e) => {
-    setTitle(e.target.value);
-  }, []);
+  const handleTitleChange = useCallback(
+    (e) => {
+      onDocumentTitleChange(e.target.value);
+    },
+    [onDocumentTitleChange]
+  );
 
   useEffect(() => {
-    if (documentContent && documentContent.length > 0) {
-      onDocumentChange(documentContent);
+    console.log(
+      "🚀 EditorContainer.useEffect > running effect",
+      isFetching,
+      documentContent
+    );
+    if (!isFetching && documentContent) {
+      onDocumentReplace(documentContent);
     }
-  }, [documentId]);
+  }, [documentId, isFetching]);
 
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
@@ -70,16 +83,15 @@ const EditorContainer = (props) => {
                   placeholder="Give this page a title"
                   id="pageTitle"
                   autoComplete="off"
-                  // value={editorState.documentTitle || ""}
-                  value={title}
+                  value={documentTitle}
                   onChange={handleTitleChange}
                 />
               }
               defaultValue={""}
-              value={document}
+              value={documentContent}
               onChange={() => {
-                setDocument(document);
                 actions.getValue().then((adf) => {
+                  onDocumentContentChange(adf);
                   runMutationDebounced(runMutation, {
                     documentContent: adf,
                   });
