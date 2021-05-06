@@ -89,7 +89,7 @@ const LeftNav = (props) => {
         </Section>
         {/* Page tree */}
         <Section hasSeparator>
-          <PageTree></PageTree>
+          <PageTree setDocumentId={props.setDocumentId} />
         </Section>
       </NestableNavigationContent>
       <NavigationFooter>

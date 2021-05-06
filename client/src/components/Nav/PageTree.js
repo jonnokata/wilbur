@@ -27,16 +27,11 @@ const PreTextIcon = styled.span`
   cursor: pointer;
 `;
 
-const getIcon = (item, onExpand, onCollapse) => {
-  if (item.children && item.children.length > 0) {
-    return item.isExpanded ? (
-      <PreTextIcon onClick={() => onCollapse(item.id)}>-</PreTextIcon>
-    ) : (
-      <PreTextIcon onClick={() => onExpand(item.id)}>+</PreTextIcon>
-    );
-  }
-  return <PreTextIcon></PreTextIcon>;
-};
+const PageTreeItem = styled.div`
+  width: 100%;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ccc;
+`;
 
 // id: ItemId;
 // children: ItemId[];
@@ -45,7 +40,7 @@ const getIcon = (item, onExpand, onCollapse) => {
 // isChildrenLoading?: boolean;
 // data?: TreeItemData;
 
-const PageTree = () => {
+const PageTree = ({ setDocumentId }) => {
   const [tree, setTree] = useState();
 
   useEffect(() => {
@@ -64,7 +59,8 @@ const PageTree = () => {
         const data = doc.data();
 
         const id = data.documentId;
-        if (id) {
+        const title = data.documentTitle;
+        if (id && title.trim().length > 0) {
           console.log(id);
           newTree.items[id] = {
             id,
@@ -86,8 +82,11 @@ const PageTree = () => {
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
+        onClick={() => setDocumentId(item.data.documentId)}
       >
-        <span>{item.data ? item.data.documentTitle : ""}</span>
+        <PageTreeItem>
+          <span>{item.data ? item.data.documentTitle : ""}</span>
+        </PageTreeItem>
       </div>
     );
   }, []);
@@ -112,6 +111,7 @@ const PageTree = () => {
 
   const onDragEnd = useCallback(
     (source, destination) => {
+      console.log({ source, destination });
       if (!destination) {
         return;
       }
@@ -135,7 +135,6 @@ const PageTree = () => {
               onCollapse={onCollapse}
               onDragEnd={onDragEnd}
               offsetPerLevel={16}
-              isDragEnabled
             />
           }
         </div>

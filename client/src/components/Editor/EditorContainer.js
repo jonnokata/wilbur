@@ -6,6 +6,7 @@ import { FirestoreMutation } from "@react-firebase/firestore";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
+// import { Title } from "@atlaskit/modal-dialog/dist/types/internal/styles/content";
 
 const EditorStyleContainer = styled.div`
   height: 100%;
@@ -24,20 +25,24 @@ const TitleContainer = styled.input`
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
   console.log("Changed SPENCE:", props.pageEdit);
-  let [editorState, setEditorState] = useState({
+  const [editorState, setEditorState] = useState({
     documentContent: props.pageEdit?.documentContent || "",
     documentTitle: props.pageEdit?.documentTitle || "",
   });
+  const [title, setTitle] = useState("");
 
   console.log("Changed SPENCE2:", editorState.documentTitle);
   const handleTitleChange = (e) => {
-    console.log(e.target.value, {
-      ...editorState,
-      documentTitle: e.target.value,
-    });
-    setEditorState({ ...editorState, documentTitle: e.target.value });
+    // console.log(e.target.value, {
+    //   ...editorState,
+    //   documentTitle: e.target.value,
+    // });
+    // setEditorState({ ...editorState, documentTitle: e.target.value });
+    console.log("setting title ", e.target.value);
+    setTitle(e.target.value);
   };
 
+  console.log({ title, pageEdit: props.pageEdit, editorState });
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
   // console.log("docPath: ", docPath);
@@ -53,14 +58,14 @@ const EditorContainer = (props) => {
     []
   );
 
-  useEffect(() => {
-    setEditorState({
-      documentContent: props.pageEdit?.documentContent || "",
-      documentTitle: props.pageEdit?.documentTitle || "",
-    });
-  }, [props.documentId]);
+  // useEffect(() => {
+  //   setEditorState({
+  //     documentContent: props.pageEdit?.documentContent || "",
+  //     documentTitle: props.pageEdit?.documentTitle || "",
+  //   });
+  // }, [props.pageEdit]);
 
-  console.log("Docpath: ", docPath);
+  console.log("Docpath: ", docPath, editorState);
   return (
     <EditorStyleContainer>
       <FirestoreMutation type="update" path={docPath}>
@@ -75,13 +80,14 @@ const EditorContainer = (props) => {
                   placeholder="Give this page a title"
                   id="pageTitle"
                   autoComplete="off"
-                  defaultValue={editorState.documentTitle || ""}
+                  // value={editorState.documentTitle || ""}
+                  value={title}
                   onChange={(e) => {
                     handleTitleChange(e);
                     console.log("e.target.value: ", e.target.value);
-                    runMutation({
-                      documentTitle: e.target.value,
-                    });
+                    // runMutation({
+                    //   documentTitle: e.target.value,
+                    // });
                   }}
                 />
               }

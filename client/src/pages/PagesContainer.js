@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const PagesContainer = () => {
+const PagesContainer = (currentDocumentId) => {
   const [currentPage, setCurrentPage] = useState({});
   const onDocumentCreate = (actions) => (newDoc) => {
     console.log("newDoc: ", newDoc);
@@ -19,6 +19,7 @@ const PagesContainer = () => {
     setCurrentPage({ documentContent: newDoc, documentTitle: "" });
   };
   const [documentId, setDocumentId] = useState("");
+  console.log("changed to", documentId);
 
   return (
     <Wrapper>
