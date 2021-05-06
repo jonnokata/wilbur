@@ -63,15 +63,9 @@ const LeftNav = (props) => {
                               uid: user.uid,
                               documentTitle: "",
                               documentContent,
-                              // documentContent: {
-                              //   version: 1,
-                              //   type: "doc",
-                              //   content: [],
-                              // },
                             })
                               .then((res) => {
-                                props.setDocumentId(documentId);
-                                console.log("Ran mutation ", res);
+                                props.onDocumentSelect(documentId);
                                 props.onDocumentCreate(documentContent);
                               })
                               .catch(console.error);
@@ -89,7 +83,7 @@ const LeftNav = (props) => {
         </Section>
         {/* Page tree */}
         <Section hasSeparator>
-          <PageTree setDocumentId={props.setDocumentId} />
+          <PageTree onDocumentSelect={props.onDocumentSelect} />
         </Section>
       </NestableNavigationContent>
       <NavigationFooter>

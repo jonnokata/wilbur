@@ -7,6 +7,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 // import { Title } from "@atlaskit/modal-dialog/dist/types/internal/styles/content";
+import { Database } from "../../firebase";
 
 const EditorStyleContainer = styled.div`
   height: 100%;
@@ -24,29 +25,28 @@ const TitleContainer = styled.input`
 
 // UPDATE PAGE CONTENT
 const EditorContainer = (props) => {
-  console.log("Changed SPENCE:", props.pageEdit);
-  const [editorState, setEditorState] = useState({
-    documentContent: props.pageEdit?.documentContent || "",
-    documentTitle: props.pageEdit?.documentTitle || "",
-  });
-  const [title, setTitle] = useState("");
+  const {
+    documentId,
+    documentTitle,
+    documentContent,
+    onDocumentChange,
+  } = props;
 
-  console.log("Changed SPENCE2:", editorState.documentTitle);
-  const handleTitleChange = (e) => {
-    // console.log(e.target.value, {
-    //   ...editorState,
-    //   documentTitle: e.target.value,
-    // });
-    // setEditorState({ ...editorState, documentTitle: e.target.value });
-    console.log("setting title ", e.target.value);
+  const [title, setTitle] = useState(documentTitle);
+  const [document, setDocument] = useState(documentContent);
+
+  const handleTitleChange = useCallback((e) => {
     setTitle(e.target.value);
-  };
+  }, []);
 
-  console.log({ title, pageEdit: props.pageEdit, editorState });
+  useEffect(() => {
+    if (documentContent && documentContent.length > 0) {
+      onDocumentChange(documentContent);
+    }
+  }, [documentId]);
+
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
-  // console.log("docPath: ", docPath);
-  // const [loading, setLoading] = useState(true);
 
   const runMutationDebounced = useCallback(
     _.debounce((runMutation, properties) => {
@@ -58,20 +58,10 @@ const EditorContainer = (props) => {
     []
   );
 
-  // useEffect(() => {
-  //   setEditorState({
-  //     documentContent: props.pageEdit?.documentContent || "",
-  //     documentTitle: props.pageEdit?.documentTitle || "",
-  //   });
-  // }, [props.pageEdit]);
-
-  console.log("Docpath: ", docPath, editorState);
   return (
     <EditorStyleContainer>
       <FirestoreMutation type="update" path={docPath}>
         {({ runMutation }) => {
-          // console.log("props.actions: ", props.actions);
-          console.log(editorState.documentTitle || "");
           return (
             <Editor
               contentComponents={
@@ -82,23 +72,15 @@ const EditorContainer = (props) => {
                   autoComplete="off"
                   // value={editorState.documentTitle || ""}
                   value={title}
-                  onChange={(e) => {
-                    handleTitleChange(e);
-                    console.log("e.target.value: ", e.target.value);
-                    // runMutation({
-                    //   documentTitle: e.target.value,
-                    // });
-                  }}
+                  onChange={handleTitleChange}
                 />
               }
               defaultValue={""}
+              value={document}
               onChange={() => {
-                console.log("handleContentChange");
+                setDocument(document);
                 actions.getValue().then((adf) => {
-                  // console.log("ADF: ", adf);
-                  // console.log("Document Title: ", editorState.documentTitle);
                   runMutationDebounced(runMutation, {
-                    // documentTitle: editorState.documentTitle || "",
                     documentContent: adf,
                   });
                 });

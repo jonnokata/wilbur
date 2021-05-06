@@ -40,7 +40,7 @@ const PageTreeItem = styled.div`
 // isChildrenLoading?: boolean;
 // data?: TreeItemData;
 
-const PageTree = ({ setDocumentId }) => {
+const PageTree = ({ onDocumentSelect }) => {
   const [tree, setTree] = useState();
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const PageTree = ({ setDocumentId }) => {
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
-        onClick={() => setDocumentId(item.data.documentId)}
+        onClick={() => onDocumentSelect(item.data.documentId)}
       >
         <PageTreeItem>
           <span>{item.data ? item.data.documentTitle : ""}</span>

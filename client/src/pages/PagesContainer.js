@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { EditorContainer } from "../components/Editor/EditorContainer";
 import { PageLayout, Main, Content, LeftSidebar } from "@atlaskit/page-layout";
 import { LeftNav } from "../components/Nav/LeftNav";
 import { WithEditorActions, EditorContext } from "@atlaskit/editor-core";
+import { Database } from "../firebase";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,14 +12,29 @@ const Wrapper = styled.div`
 `;
 
 const PagesContainer = (currentDocumentId) => {
-  const [currentPage, setCurrentPage] = useState({});
-  const onDocumentCreate = (actions) => (newDoc) => {
-    console.log("newDoc: ", newDoc);
-    console.log("actions: ", actions);
-    actions.replaceDocument(newDoc);
-    setCurrentPage({ documentContent: newDoc, documentTitle: "" });
-  };
   const [documentId, setDocumentId] = useState("");
+  const [editorContent, setEditorContent] = useState({
+    documentTitle: "",
+    documentContent: "",
+  });
+  // const docPath = "/pages ";
+
+  useEffect(() => {
+    const fn = async () => {
+      if (documentId) {
+        console.log("🚀 Document ID changed to", documentId);
+        const doc = await Database.doc(`pages/${documentId}`).get();
+        const data = doc.data();
+        console.log("🚀 Data received", data);
+        setEditorContent({
+          documentTitle: data.documentTitle,
+          documentContent: data.documentContent,
+        });
+      }
+    };
+    fn();
+  }, [documentId]);
+
   console.log("changed to", documentId);
 
   return (
@@ -37,17 +53,19 @@ const PagesContainer = (currentDocumentId) => {
                     height="100vh"
                   >
                     <LeftNav
-                      onDocumentCreate={onDocumentCreate(actions)}
-                      setDocumentId={setDocumentId}
-                    ></LeftNav>
+                      onDocumentCreate={() => {}}
+                      onDocumentSelect={setDocumentId}
+                    />
                   </LeftSidebar>
                 }
                 {
                   <Main testId="main" id="main" skipLinkTitle="Main Content">
                     <EditorContainer
                       actions={actions}
-                      pageEdit={currentPage}
                       documentId={documentId}
+                      documentTitle={editorContent.documentTitle}
+                      documentContent={editorContent.documentContent}
+                      onDocumentChange={actions.replaceDocument}
                     />
                   </Main>
                 }
