@@ -19,7 +19,11 @@ As this app was built as more of a technical exploration, the real-world use cas
 - Version history of pages
 
 ## What it looks like
-Login/signup
+**Login/signup
+![image](https://user-images.githubusercontent.com/30368504/117522601-bc8be600-aff7-11eb-9b19-b681bc7ca590.png)
+
+**Page tree with editor**
+![image](https://user-images.githubusercontent.com/30368504/117522557-7cc4fe80-aff7-11eb-99eb-8c43bf8bb101.png)
 
 Page tree with editor
 
