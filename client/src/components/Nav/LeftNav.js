@@ -32,6 +32,7 @@ const LeftNav = (props) => {
     content: [],
   };
 
+  console.log("LeftNav", props);
   const handleLogout = () => {
     logout();
     history.push("/user/login");
@@ -66,7 +67,7 @@ const LeftNav = (props) => {
                             })
                               .then((res) => {
                                 props.onDocumentSelect(documentId);
-                                props.onDocumentCreate(documentContent);
+                                props.onDocumentCreate(true);
                               })
                               .catch(console.error);
                           }}
@@ -85,7 +86,9 @@ const LeftNav = (props) => {
         <Section hasSeparator>
           <PageTree
             onDocumentSelect={props.onDocumentSelect}
-            onDocumentDelete={props.handleDelete}
+            onDocumentDelete={props.onDocumentDelete}
+            documentTitle={props.documentTitle}
+            documentId={props.documentId}
             pages={props.pages}
           />
         </Section>
@@ -98,13 +101,6 @@ const LeftNav = (props) => {
             </Button>
             {" ∙ "}
             <UpdateProfile />
-            {/* <Button
-              appearance="link"
-              spacing="compact"
-              onClick={openProfileModal}
-            >
-              Update Details
-            </Button> */}
           </Fragment>
         </Footer>
       </NavigationFooter>

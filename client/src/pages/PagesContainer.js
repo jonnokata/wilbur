@@ -18,40 +18,43 @@ const PagesContainer = (currentDocumentId) => {
   const [documentContent, setDocumentContent] = useState("");
   const [isFetching, setIsFetching] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isNewDocumentTitle, setIsNewDocumentTitle] = useState(false);
   console.log("🚀 Current document ID", documentId);
+  console.log({ documentTitle });
 
   useEffect(() => {
-    const fn = async () => {
-      if (documentId) {
-        console.log(
-          "🚀 PagesContainer.useEffect > Document ID changed to",
-          documentId
-        );
-        setIsFetching(true);
-        const doc = await Database.doc(`pages/${documentId}`).get();
-        const data = doc.data();
-        console.log("🚀 PagesContainer.useEffect > Data received", data);
-        setDocumentTitle(data.documentTitle);
-        setDocumentContent(data.documentContent);
-        setIsFetching(false);
-      }
-    };
-    fn();
+    if (documentId) {
+      console.log(
+        "🚀 PagesContainer.useEffect > Document ID changed to",
+        documentId
+      );
+      setIsFetching(true);
+      Database.doc(`pages/${documentId}`)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          console.log("🚀 PagesContainer.useEffect > Data received", data);
+          setDocumentTitle(data.documentTitle);
+          setDocumentContent(data.documentContent);
+          setIsFetching(false);
+        });
+    }
   }, [documentId]);
 
   useEffect(() => {
     const fn = async () => {
-      if (!isDeleting) {
+      if (!isDeleting || isNewDocumentTitle) {
         const pagesCollection = await Database.collection("pages").get();
         console.log("🚀 PagesContainer.useEffect", pagesCollection);
         const pagesCollectionData = pagesCollection.docs.map((doc) =>
           doc.data()
         );
         setPages(pagesCollectionData);
+        setIsNewDocumentTitle(false);
       }
     };
     fn();
-  }, [isDeleting]);
+  }, [isDeleting, isNewDocumentTitle]);
 
   const handleDelete = useCallback((documentId) => {
     const fn = async () => {
@@ -80,9 +83,11 @@ const PagesContainer = (currentDocumentId) => {
                     height="100vh"
                   >
                     <LeftNav
-                      onDocumentCreate={() => {}}
+                      onDocumentCreate={setIsNewDocumentTitle}
                       onDocumentSelect={setDocumentId}
-                      onDelete={handleDelete}
+                      onDocumentDelete={handleDelete}
+                      documentTitle={documentTitle}
+                      documentId={documentId}
                       pages={pages}
                     />
                   </LeftSidebar>

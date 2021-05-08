@@ -23,13 +23,21 @@ const PageTreeItem = styled.div`
   padding: 12px 16px;
   border-bottom: 1px solid #ccc;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: space-between;
   &:hover {
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.1);
   }
 `;
 
-const PageTree = ({ onDocumentSelect, pages: allPages }) => {
+const PageTree = ({
+  onDocumentSelect,
+  onDocumentDelete,
+  pages: allPages,
+  documentId,
+  documentTitle,
+}) => {
   const [tree, setTree] = useState();
 
   useEffect(() => {
@@ -58,24 +66,52 @@ const PageTree = ({ onDocumentSelect, pages: allPages }) => {
     setTree(newTree);
   }, [allPages]);
 
-  const renderItem = useCallback(({ item, onExpand, onCollapse, provided }) => {
-    const handleClick = () => {
-      console.log("🚀 Selecting document with id", item.data.documentId);
-      onDocumentSelect(item.data.documentId);
-    };
-    return (
-      <div
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-        onClick={handleClick}
-      >
-        <PageTreeItem>
-          <span>{item.data ? item.data.documentTitle : ""}</span>
-        </PageTreeItem>
-      </div>
-    );
-  }, []);
+  useEffect(() => {
+    setTree((tree) => {
+      if (tree && tree.items[documentId]) {
+        return {
+          ...tree,
+          items: {
+            ...tree.items,
+            [documentId]: {
+              ...tree.items[documentId],
+              data: {
+                ...tree.items[documentId].data,
+                documentTitle,
+              },
+            },
+          },
+        };
+      }
+    });
+  }, [documentId, documentTitle]);
+
+  const renderItem = useCallback(
+    ({ item, onExpand, onCollapse, provided }) => {
+      const handleClick = () => {
+        console.log("🚀 Selecting document with id", item.data.documentId);
+        onDocumentSelect(item.data.documentId);
+      };
+      const handleDelete = () => {
+        console.log("onDocumentDelete");
+        onDocumentDelete(item.data.documentId);
+      };
+      const title = item.data ? item.data.documentTitle : "";
+      return (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <PageTreeItem>
+            <span onClick={handleClick}>{title}</span>
+            <span onClick={handleDelete}>x</span>
+          </PageTreeItem>
+        </div>
+      );
+    },
+    [onDocumentDelete, onDocumentSelect]
+  );
 
   const onExpand = useCallback(
     (itemId) => {

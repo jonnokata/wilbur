@@ -31,7 +31,6 @@ const EditorContainer = (props) => {
     documentContent,
     onDocumentReplace,
     onDocumentTitleChange,
-    onDocumentContentChange,
     isFetching,
   } = props;
   console.log(
@@ -41,8 +40,8 @@ const EditorContainer = (props) => {
   );
 
   const handleTitleChange = useCallback(
-    (e) => {
-      onDocumentTitleChange(e.target.value);
+    (title) => {
+      onDocumentTitleChange(title);
     },
     [onDocumentTitleChange]
   );
@@ -61,78 +60,93 @@ const EditorContainer = (props) => {
   const actions = props.actions;
   let docPath = `pages/${props.documentId}`;
 
-  const runMutationDebounced = useCallback(
-    _.debounce((runMutation, properties) => {
-      // console.log("runMutationDebounced");
-      runMutation(properties).then((res) => {
-        console.log("Ran mutation ", res);
-      });
-    }, 1000),
-    []
-  );
-
   return (
     <EditorStyleContainer>
-      <FirestoreMutation type="update" path={docPath}>
-        {({ runMutation }) => {
-          return (
-            <Editor
-              contentComponents={
-                <TitleContainer
-                  type="text"
-                  placeholder="Give this page a title"
-                  id="pageTitle"
-                  autoComplete="off"
-                  value={documentTitle}
-                  onChange={handleTitleChange}
-                />
-              }
-              defaultValue={""}
-              value={documentContent}
-              onChange={() => {
-                actions.getValue().then((adf) => {
-                  onDocumentContentChange(adf);
-                  runMutationDebounced(runMutation, {
-                    documentContent: adf,
-                  });
-                });
-              }}
-              appearance="full-width"
-              allowFindReplace={true}
-              allowExpand={{
-                allowInsertion: true,
-                allowInteractiveExpand: true,
-              }}
-              placeholder="G'day! Type away :)"
-              placeholderHints={["Type / to insert content"]}
-              allowDate={true}
-              allowKeyboardAccessibleDatepicker={true}
-              allowStatus={true}
-              allowLayouts={true}
-              allowPanel={true}
-              allowBlockType={true}
-              allowBreakout={true}
-              allowTextColor={true}
-              allowTables={{
-                advanced: true,
-                allowBackgroundColor: true,
-                allowHeaderColumn: true,
-                allowHeaderRow: true,
-                allowMergeCells: true,
-                allowNumberColumn: true,
-                allowColumnSorting: true,
-                stickToolbarToBottom: true,
-                tableCellOptimization: true,
-                stickyHeaders: true,
-                stickyHeadersOptimization: true,
-                initialRenderOptimization: true,
-                mouseMoveOptimization: true,
-              }}
-            />
-          );
-        }}
-      </FirestoreMutation>
+      <WilburEditor
+        documentId={documentId}
+        documentTitle={documentTitle}
+        onDocumentTitleChange={handleTitleChange}
+        actions={actions}
+      />
     </EditorStyleContainer>
+  );
+};
+
+const WilburEditor = ({
+  documentId,
+  documentTitle,
+  onDocumentTitleChange,
+  actions,
+}) => {
+  let docPath = `pages/${documentId}`;
+
+  const runMutationDebounced = useCallback(
+    _.debounce((properties) => {
+      // console.log("runMutationDebounced");
+      Database.doc(docPath)
+        .update(properties)
+        .then((res) => {
+          console.log("Ran mutation ", res);
+        });
+    }, 1000),
+    [docPath]
+  );
+  return (
+    <Editor
+      contentComponents={
+        <TitleContainer
+          type="text"
+          placeholder="Give this page a title"
+          id="pageTitle"
+          autoComplete="off"
+          value={documentTitle}
+          onChange={(e) => {
+            const title = e.target.value;
+            runMutationDebounced({ documentTitle: title });
+            onDocumentTitleChange(title);
+          }}
+        />
+      }
+      defaultValue={""}
+      onChange={() => {
+        actions.getValue().then((adf) => {
+          runMutationDebounced({
+            documentContent: adf,
+          });
+        });
+      }}
+      appearance="full-width"
+      allowFindReplace={true}
+      allowExpand={{
+        allowInsertion: true,
+        allowInteractiveExpand: true,
+      }}
+      placeholder="G'day! Type away :)"
+      placeholderHints={["Type / to insert content"]}
+      allowDate={true}
+      allowKeyboardAccessibleDatepicker={true}
+      allowStatus={true}
+      allowLayouts={true}
+      allowPanel={true}
+      allowBlockType={true}
+      allowBreakout={true}
+      allowTextColor={true}
+      allowTables={{
+        advanced: true,
+        allowBackgroundColor: true,
+        allowHeaderColumn: true,
+        allowHeaderRow: true,
+        allowMergeCells: true,
+        allowNumberColumn: true,
+        allowColumnSorting: true,
+        stickToolbarToBottom: true,
+        tableCellOptimization: true,
+        stickyHeaders: true,
+        stickyHeadersOptimization: true,
+        initialRenderOptimization: true,
+        mouseMoveOptimization: true,
+      }}
+    />
   );
 };
 
